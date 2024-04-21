@@ -20,5 +20,6 @@ public class PessoaEntityTypeConfiguration : IEntityTypeConfiguration<PessoaEnti
         builder.Property(p => p.Nacionalidade).IsRequired();
 
         builder.HasMany(p => p.Enderecos).WithOne(e => e.Pessoa).HasForeignKey(p => p.IdPessoa);
+        builder.HasMany(p => p.Telefone).WithOne(e => e.Pessoa).HasForeignKey(p => p.IdPessoa);
     }
 }
