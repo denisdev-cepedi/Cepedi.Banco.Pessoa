@@ -4,11 +4,13 @@ using Cepedi.Banco.Pessoa.Dados;
 using Cepedi.Banco.Pessoa.Dados.Repositorios;
 using Cepedi.Banco.Pessoa.Dominio.Pipelines;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
+using Cepedi.Banco.Pessoa.Dominio.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Refit;
 
 namespace Cepedi.Banco.Pessoa.IoC
 {
@@ -29,6 +31,8 @@ namespace Cepedi.Banco.Pessoa.IoC
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
 
             //services.AddHttpContextAccessor();
+
+            ConfigurarRefit(services, configuration);
 
             services.AddHealthChecks()
                 .AddDbContextCheck<ApplicationDbContext>();
@@ -51,7 +55,15 @@ namespace Cepedi.Banco.Pessoa.IoC
             }
         }
 
-
+        private static void ConfigurarRefit(IServiceCollection services, IConfiguration configuration)
+        {
+            services.
+                AddRefitClient<IViaCep>().
+                ConfigureHttpClient(httpClient =>
+                    httpClient.BaseAddress = 
+                    new Uri(configuration["Servicos:ViaCep"]!)
+                );
+        }
 
         private static void ConfigureDbContext(IServiceCollection services, IConfiguration configuration)
         {
