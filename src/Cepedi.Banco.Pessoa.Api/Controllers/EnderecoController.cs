@@ -11,46 +11,44 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers;
 public class EnderecoController : BaseController
 {
     private readonly ILogger<EnderecoController> _logger;
-    private readonly ApplicationDbContext _context;
 
-    public EnderecoController(IMediator mediator, ILogger<EnderecoController> logger, ApplicationDbContext context) : base(mediator)
+    public EnderecoController(IMediator mediator, ILogger<EnderecoController> logger) : base(mediator)
     {
         _logger = logger;
-        _context = context;
     }
 
     [HttpGet]
-    public async Task<ActionResult<ObterTodosEnderecosResponse>> ObterTodosEnderecos()
+    public async Task<ActionResult<ObterTodosEnderecosResponse>> ObterTodosEnderecosAsync()
     {
         return await SendCommand(new ObterTodosEnderecosRequest());
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ObterEnderecoResponse>> ObterEndereco([FromRoute] int id)
+    public async Task<ActionResult<ObterEnderecoResponse>> ObterEnderecoAsync([FromRoute] int id)
     {
         return await SendCommand(new ObterEnderecoRequest() { EnderecoId = id });
     }
 
-    [HttpGet("/cep/{cep}")]
-    public async Task<ActionResult<ObterEnderecoPorCepResponse>> ObterEnderecoPorCep([FromRoute] string cep)
+    [HttpGet("cep/{cep}")]
+    public async Task<ActionResult<ObterEnderecoPorCepResponse>> ObterEnderecoPorCepAsync([FromRoute] string cep)
     {
         return await SendCommand(new ObterEnderecoPorCepRequest() { Cep = cep });
     }
 
     [HttpPost]
-    public async Task<ActionResult<CadastrarEnderecoResponse>> CadastrarEndereco([FromBody] CadastrarEnderecoRequest request)
+    public async Task<ActionResult<CadastrarEnderecoResponse>> CadastrarEnderecoAsync([FromBody] CadastrarEnderecoRequest request)
     {
         return await SendCommand(request);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<AtualizarEnderecoResponse>> AtualizarEndereco([FromBody] AtualizarEnderecoRequest request)
+    public async Task<ActionResult<AtualizarEnderecoResponse>> AtualizarEnderecoAsync([FromBody] AtualizarEnderecoRequest request)
     {
         return await SendCommand(request);
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ExcluirEnderecoResponse>> ExcluirEndereco([FromRoute] int id)
+    public async Task<ActionResult<ExcluirEnderecoResponse>> ExcluirEnderecoAsync([FromRoute] int id)
     {
         var request = new ExcluirEnderecoRequest() { EnderecoId = id };
         return await SendCommand(request);
