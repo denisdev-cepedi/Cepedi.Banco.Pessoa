@@ -23,7 +23,7 @@ public class ObterTodosEnderecosRequestHandlerTests
     }
 
     [Fact]
-    public async Task ObterEnderecoPorCepAsync_QuandoObter_DeveRetornarSucesso()
+    public async Task ObterTodosEnderecosAsync_QuandoObter_DeveRetornarSucesso()
     {
         //Arrange 
         var request = new ObterTodosEnderecosRequest();

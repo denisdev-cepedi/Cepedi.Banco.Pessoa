@@ -23,7 +23,7 @@ public class ExcluirEnderecoPorCepRequestHandlerTests
     }
 
     [Fact]
-    public async Task ObterEnderecoPorCepAsync_QuandoObter_DeveRetornarSucesso()
+    public async Task ExcluirEnderecoAsync_QuandoExcluir_DeveRetornarSucesso()
     {
         //Arrange 
         var request = new ExcluirEnderecoRequest { EnderecoId = 1 };
