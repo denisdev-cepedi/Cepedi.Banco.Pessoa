@@ -4,7 +4,7 @@ using Cepedi.Banco.Pessoa.Dados;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Cepedi.Banco.Pessoa.Api.Controllers;
+namespace Cepedi.Banco.Pessoa.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -26,32 +26,16 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ObterPessoaPorIdResponse>> ObterPessoaPorId(int id)
+        public async Task<ActionResult<ObterPessoaResponse>> ObterPessoa([FromRoute] int id)
         {
-            return await _mediator.Send(new ObterPessoaPorIdRequest { PessoaId = id });
+            return await SendCommand(new ObterPessoaRequest() { PessoaId = id });
         }
 
         [HttpPost]
         public async Task<ActionResult<CadastrarPessoaResponse>> CadastrarPessoa([FromBody] CadastrarPessoaRequest request)
         {
-            return await _mediator.Send(request);
+            return await SendCommand(request);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<AtualizarPessoaResponse>> AtualizarPessoa(int id, [FromBody] AtualizarPessoaRequest request)
-        {
-            if (id != request.PessoaId)
-            {
-                return BadRequest();
-            }
-
-            return await _mediator.Send(request);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ExcluirPessoaResponse>> ExcluirPessoa(int id)
-        {
-            return await _mediator.Send(new ExcluirPessoaRequest { PessoaId = id });
-        }
     }
 }
