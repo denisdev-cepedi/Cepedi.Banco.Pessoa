@@ -37,5 +37,11 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
             return await SendCommand(request);
         }
 
+        [HttpPut("{id}")]
+        public async Task<ActionResult<AtualizarPessoaResponse>> AtualizarPessoa([FromBody] AtualizarPessoaRequest request)
+        {
+            return await SendCommand(request);
+        }
+
     }
 }
