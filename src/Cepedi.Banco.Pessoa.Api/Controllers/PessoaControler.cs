@@ -43,5 +43,12 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
             return await SendCommand(request);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ExcluirPessoaResponse>> ExcluirPessoa([FromRoute] int id)
+        {
+            var request = new ExcluirPessoaRequest() { PessoaId = id };
+            return await SendCommand(request);
+        }
+
     }
 }
