@@ -1,4 +1,5 @@
 namespace Cepedi.Banco.Pessoa.Dominio.Entidades;
+using Cepedi.Banco.Pessoa.Compartilhado.Requests;
 public class PessoaEntity
 {
     public int Id { get; set; }
@@ -11,4 +12,16 @@ public class PessoaEntity
     public string EstadoCivil { get; set; } = default!;
     public string Nacionalidade { get; set; } = default!;
     public ICollection<EnderecoEntity> Enderecos { get; set; } = default!;
+
+    public void Atualizar(AtualizarPessoaRequest request)
+    {
+        Nome = request.Nome;
+        Email = request.Email;
+        DataNascimento = request.DataNascimento;
+        Cpf = request.Cpf;
+        Telefone = request.Telefone;
+        Genero = request.Genero;
+        EstadoCivil = request.EstadoCivil;
+        Nacionalidade = request.Nacionalidade;
+    }
 }
