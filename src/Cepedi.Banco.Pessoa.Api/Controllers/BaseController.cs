@@ -37,7 +37,7 @@ public class BaseController : ControllerBase
 
     private ResultadoErro FormatErrorMessage(ResultadoErro responseErro, IEnumerable<string>? errors = null)
     {
-        if (errors == null)
+        if (errors is not null)
         {
             responseErro.Descricao = $"{responseErro.Descricao} : {string.Join("; ", errors!)}";
         }
