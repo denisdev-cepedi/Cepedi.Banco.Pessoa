@@ -36,7 +36,7 @@ namespace Cepedi.Banco.Pessoa.IoC
         private static void ConfigurarFluentValidation(IServiceCollection services)
         {
             var abstractValidator = typeof(AbstractValidator<>);
-            var validadores = typeof(QualquerCoisa)
+            var validadores = typeof(IValida)
                 .Assembly
                 .DefinedTypes
                 .Where(type => type.BaseType?.IsGenericType is true &&

@@ -4,7 +4,7 @@ using OperationResult;
 
 namespace Cepedi.Banco.Pessoa.Compartilhado.Requests;
 
-public class AtualizarEnderecoRequest : IRequest<Result<AtualizarEnderecoResponse>>
+public class AtualizarEnderecoRequest : IRequest<Result<AtualizarEnderecoResponse>>, IValida
 {
     public int Id { get; set; }
     public string Cep { get; set; } = default!;
