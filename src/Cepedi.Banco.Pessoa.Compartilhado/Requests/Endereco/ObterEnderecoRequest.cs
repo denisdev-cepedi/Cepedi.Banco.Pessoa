@@ -4,7 +4,7 @@ using OperationResult;
 
 namespace Cepedi.Banco.Pessoa.Compartilhado.Requests;
 
-public class ObterTodosEnderecosRequest : IRequest<Result<ObterTodosEnderecosResponse>>
+public class ObterEnderecoRequest : IRequest<Result<ObterEnderecoResponse>>, IValida
 {
-
+    public int EnderecoId { get; set; }
 }

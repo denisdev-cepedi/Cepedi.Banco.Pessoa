@@ -19,6 +19,14 @@ public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEndereco
     }
     public async Task<Result<CadastrarEnderecoResponse>> Handle(CadastrarEnderecoRequest request, CancellationToken cancellationToken)
     {
+        // ToDo: Verificar se a pessoa existe
+        // var _pessoa = await pessoaRepository.ObterPessoaAsync(request.IdPessoa);
+
+        // if (_pessoa is null)
+        // {
+        //     return Result.Error<CadastrarEnderecoResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+        // }
+
         var endereco = new EnderecoEntity()
         {
             Cep = request.Cep,

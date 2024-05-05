@@ -1,4 +1,5 @@
 ﻿using Cepedi.Banco.Pessoa.Compartilhado.Enums;
+using Cepedi.Banco.Pessoa.Compartilhado.Excecoes;
 using Cepedi.Banco.Pessoa.Compartilhado.Exceptions;
 using Cepedi.Compartilhado.Exceptions;
 using MediatR;
@@ -31,13 +32,14 @@ public class BaseController : ControllerBase
 
     protected ActionResult HandleError(Exception error) => error switch
     {
+        RequestInvalidaException e => BadRequest(FormatErrorMessage(BancoCentralMensagemErrors.DadosInvalidos, e.Erros)),
         SemResultadosExcecao e => NoContent(),
         _ => BadRequest(FormatErrorMessage(BancoCentralMensagemErrors.Generico))
     };
 
     private ResultadoErro FormatErrorMessage(ResultadoErro responseErro, IEnumerable<string>? errors = null)
     {
-        if (errors == null)
+        if (errors is not null)
         {
             responseErro.Descricao = $"{responseErro.Descricao} : {string.Join("; ", errors!)}";
         }
