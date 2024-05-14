@@ -6,7 +6,6 @@ namespace Cepedi.Banco.Pessoa.Compartilhado.Requests;
 
 public class CadastrarTelefoneRequest : IRequest<Result<CadastrarTelefoneResponse>>
 {
-     public int Id { get; set; }
     public string CodPais { get; set; } = default!;
     public string Ddd { get; set; } = default!;
     public string Numero { get; set; } = default!;

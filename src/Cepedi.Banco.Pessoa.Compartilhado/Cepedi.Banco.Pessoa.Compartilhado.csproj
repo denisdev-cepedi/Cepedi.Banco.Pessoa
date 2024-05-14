@@ -11,6 +11,8 @@
   <ItemGroup>
     <Folder Include="Dtos\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Requests/Endereco/Validations/" />
+    <Folder Include="Requests/Telefone/" />
   </ItemGroup>
 
   <ItemGroup>

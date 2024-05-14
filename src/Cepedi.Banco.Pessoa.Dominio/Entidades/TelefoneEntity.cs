@@ -1,6 +1,6 @@
 namespace Cepedi.Banco.Pessoa.Dominio.Entidades;
 
-public class TelefoneEntityEntity
+public class TelefoneEntity
 {
     public int Id { get; set; }
     public string CodPais { get; set; } = default!;
