@@ -1,5 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RootNamespace>Cepedi.Banco.Pessoa.Compartilhado</RootNamespace>
     <AssemblyName>Cepedi.Banco.Pessoa.Compartilhado</AssemblyName>
@@ -7,19 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <Folder Include="Dtos\" />
     <Folder Include="Extensions\" />
     <Folder Include="Requests/Endereco/Validations/" />
     <Folder Include="Requests/Telefone/" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.0" />
     <PackageReference Include="Refit" Version="7.0.0" />
     <PackageReference Include="Divino.OperationResult" Version="3.1.0" />
     <PackageReference Include="MediatR" Version="12.0.1" />
   </ItemGroup>
-
 </Project>
