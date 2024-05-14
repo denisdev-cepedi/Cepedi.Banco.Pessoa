@@ -1,8 +1,6 @@
 using Cepedi.Banco.Pessoa.Compartilhado.Requests;
 using Cepedi.Banco.Pessoa.Compartilhado.Responses;
-using Cepedi.Banco.Pessoa.Dados;
 using MediatR;
-using OperationResult;
 using Microsoft.AspNetCore.Mvc;
 using Cepedi.Compartilhado.Exceptions;
 
@@ -13,12 +11,10 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers;
 public class TelefoneController : BaseController
 {
     private readonly ILogger<TelefoneController> _logger;
-    private readonly ApplicationDbContext _context;
 
-    public TelefoneController(IMediator mediator, ILogger<TelefoneController> logger, ApplicationDbContext context) : base(mediator)
+    public TelefoneController(IMediator mediator, ILogger<TelefoneController> logger) : base(mediator)
     {
         _logger = logger;
-        _context = context;
     }
 
     [HttpGet]

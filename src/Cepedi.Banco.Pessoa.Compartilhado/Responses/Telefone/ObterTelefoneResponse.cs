@@ -7,6 +7,5 @@ public class ObterTelefoneResponse
     public string Ddd { get; set; } = default!;
     public string Numero { get; set; } = default!;
     public string Tipo { get; set; } = default!;
-    public bool Principal { get; set; } = default!;  
-    public int IdPessoa { get; set; }
+    public bool Principal { get; set; } = default!;
 }

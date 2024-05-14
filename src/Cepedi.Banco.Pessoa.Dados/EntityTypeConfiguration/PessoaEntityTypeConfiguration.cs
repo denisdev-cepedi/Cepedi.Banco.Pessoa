@@ -13,12 +13,12 @@ public class PessoaEntityTypeConfiguration : IEntityTypeConfiguration<PessoaEnti
         builder.Property(p => p.Nome).IsRequired().HasMaxLength(150);
         builder.Property(p => p.Cpf).IsRequired().HasMaxLength(11);
         builder.Property(p => p.Email).IsRequired().HasMaxLength(250);
-        builder.Property(p => p.Telefone).IsRequired().HasMaxLength(14);
         builder.Property(p => p.DataNascimento).IsRequired();
         builder.Property(p => p.Genero).IsRequired();
         builder.Property(p => p.EstadoCivil).IsRequired();
         builder.Property(p => p.Nacionalidade).IsRequired();
 
-        builder.HasMany(p => p.Enderecos).WithOne(e => e.Pessoa).HasForeignKey(p => p.IdPessoa);
+        builder.HasMany(p => p.Enderecos).WithOne(e => e.Pessoa).HasForeignKey(e => e.IdPessoa);
+        builder.HasMany(p => p.Telefones).WithOne(t => t.Pessoa).HasForeignKey(t => t.IdPessoa);
     }
 }
