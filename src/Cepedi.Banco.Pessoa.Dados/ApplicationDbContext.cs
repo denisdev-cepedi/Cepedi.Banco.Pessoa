@@ -9,6 +9,7 @@ public class ApplicationDbContext : DbContext
 {
     public DbSet<PessoaEntity> Pessoa { get; set; } = default!;
     public DbSet<EnderecoEntity> Endereco { get; set; } = default!;
+    public DbSet<TelefoneEntity> Telefone { get; set; } = default!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
