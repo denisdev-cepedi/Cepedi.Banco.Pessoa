@@ -4,7 +4,7 @@ using OperationResult;
 
 namespace Cepedi.Banco.Pessoa.Compartilhado.Requests;
 
-public class CadastrarTelefoneRequest : IRequest<Result<CadastrarTelefoneResponse>>
+public class CadastrarTelefoneRequest : IRequest<Result<CadastrarTelefoneResponse>>, IValida
 {
     public string CodPais { get; set; } = default!;
     public string Ddd { get; set; } = default!;
