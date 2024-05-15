@@ -50,5 +50,19 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
             return await SendCommand(request);
         }
 
+         [HttpGet("{id}/telefones")]
+        public async Task<ActionResult<ObterTelefonesPessoaResponse>> ObterTelefonesPessoa(int id)
+        {
+            var request = new ObterTelefonesPessoaRequest() { PessoaId = id };
+            return await SendCommand(request);
+        }
+
+        [HttpGet("{id}/enderecos")]
+        public async Task<ActionResult<ObterEnderecosPessoaResponse>> ObterEnderecosPessoa(int id)
+        {
+            var request = new ObterEnderecosPessoaRequest() { PessoaId = id };
+            return await SendCommand(request);
+        }
+
     }
 }
