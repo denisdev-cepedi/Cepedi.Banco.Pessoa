@@ -1,5 +1,6 @@
 using Cepedi.Banco.Pessoa.Compartilhado.Requests;
 using Cepedi.Banco.Pessoa.Compartilhado.Responses;
+using Cepedi.Banco.Pessoa.Compartilhado.Exceptions;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,10 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
         public async Task<Result<ObterTelefonesPessoaResponse>> Handle(ObterTelefonesPessoaRequest request, CancellationToken cancellationToken)
         {
             var telefones = await _pessoaRepository.ObterTelefonesPessoaAsync(request.PessoaId);
+            if (telefones == null || !telefones.Any())
+            {
+                return Result.Error<ObterTelefonesPessoaResponse>(new SemResultadosExcecao());
+            }
 
             var response = new ObterTelefonesPessoaResponse
             {
@@ -33,5 +38,6 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
             return Result.Success(response);
         }
+
     }
 }

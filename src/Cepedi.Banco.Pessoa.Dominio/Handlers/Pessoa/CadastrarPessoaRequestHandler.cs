@@ -1,5 +1,6 @@
 using Cepedi.Banco.Pessoa.Compartilhado.Requests;
 using Cepedi.Banco.Pessoa.Compartilhado.Responses;
+using Cepedi.Banco.Pessoa.Compartilhado.Exceptions;
 using Cepedi.Banco.Pessoa.Dominio.Entidades;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
@@ -24,7 +25,12 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
         public async Task<Result<CadastrarPessoaResponse>> Handle(CadastrarPessoaRequest request, CancellationToken cancellationToken)
         {
-            
+                var pessoaExistente = await _pessoaRepository.ObterPessoaAsync(request.Id);
+                if (pessoaExistente != null)
+                {
+                    return Result.Error<CadastrarPessoaResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+        
+                }
                 var novaPessoa = new PessoaEntity
                 {
                     Nome = request.Nome,
@@ -38,8 +44,16 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
                 var pessoaCadastrada = await _pessoaRepository.CadastrarPessoaAsync(novaPessoa);
 
-                return Result.Success(new CadastrarPessoaResponse { Id = pessoaCadastrada.Id });
-            
+                return Result.Success(new CadastrarPessoaResponse()
+                {
+                    Nome = request.Nome,
+                    Email = request.Email,
+                    DataNascimento = request.DataNascimento,
+                    Cpf = request.Cpf,
+                    Genero = request.Genero,
+                    EstadoCivil = request.EstadoCivil,
+                    Nacionalidade = request.Nacionalidade
+                });
             
         }
     }

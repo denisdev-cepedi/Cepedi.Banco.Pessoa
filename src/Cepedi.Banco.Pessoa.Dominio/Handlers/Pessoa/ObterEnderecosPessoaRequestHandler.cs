@@ -1,5 +1,6 @@
 using Cepedi.Banco.Pessoa.Compartilhado.Requests;
 using Cepedi.Banco.Pessoa.Compartilhado.Responses;
+using Cepedi.Banco.Pessoa.Compartilhado.Exceptions;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -24,35 +25,32 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
         public async Task<Result<ObterEnderecosPessoaResponse>> Handle(ObterEnderecosPessoaRequest request, CancellationToken cancellationToken)
         {
-            
-                var enderecos = await _pessoaRepository.ObterEnderecosPessoaAsync(request.PessoaId);
+            var enderecos = await _pessoaRepository.ObterEnderecosPessoaAsync(request.PessoaId);
+            if (enderecos == null || !enderecos.Any())
+            {
+                return Result.Error<ObterEnderecosPessoaResponse>(new SemResultadosExcecao());
+            }
 
-                var enderecoResponses = new List<ObterEnderecoResponse>();
-                foreach (var endereco in enderecos)
-                {
-                    enderecoResponses.Add(new ObterEnderecoResponse
-                    {
-                        Id = endereco.Id,
-                        Cep = endereco.Cep,
-                        Logradouro = endereco.Logradouro,
-                        Complemento = endereco.Complemento,
-                        Bairro = endereco.Bairro,
-                        Cidade = endereco.Cidade,
-                        Uf = endereco.Uf,
-                        Pais = endereco.Pais,
-                        Numero = endereco.Numero
-                    
-                    });
-                }
+            var enderecoResponses = enderecos.Select(e => new ObterEnderecoResponse
+            {
+                Id = e.Id,
+                Cep = e.Cep,
+                Logradouro = e.Logradouro,
+                Complemento = e.Complemento,
+                Bairro = e.Bairro,
+                Cidade = e.Cidade,
+                Uf = e.Uf,
+                Pais = e.Pais,
+                Numero = e.Numero
+            }).ToList();
 
-                var response = new ObterEnderecosPessoaResponse
-                {
-                    Enderecos = enderecoResponses
-                };
+            var response = new ObterEnderecosPessoaResponse
+            {
+                Enderecos = enderecoResponses
+            };
 
-                return Result.Success(response);
-            
-           
+            return Result.Success(response);
         }
+
     }
 }

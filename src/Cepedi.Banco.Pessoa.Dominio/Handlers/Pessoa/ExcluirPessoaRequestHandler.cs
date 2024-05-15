@@ -1,5 +1,6 @@
 using Cepedi.Banco.Pessoa.Compartilhado.Requests;
 using Cepedi.Banco.Pessoa.Compartilhado.Responses;
+using Cepedi.Banco.Pessoa.Compartilhado.Exceptions;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -25,12 +26,12 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             var pessoa = await _pessoaRepository.ObterPessoaAsync(request.PessoaId);
             if (pessoa == null)
             {
-                return Result.Error<ExcluirPessoaResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+                return Result.Error<ExcluirPessoaResponse>(new SemResultadosExcecao());
             }
 
             await _pessoaRepository.ExcluirPessoaAsync(pessoa);
-
             return Result.Success(new ExcluirPessoaResponse());
         }
+
     }
 }

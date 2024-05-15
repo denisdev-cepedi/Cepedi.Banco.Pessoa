@@ -1,6 +1,6 @@
 using Cepedi.Banco.Pessoa.Compartilhado.Requests;
 using Cepedi.Banco.Pessoa.Compartilhado.Responses;
-using Cepedi.Banco.Pessoa.Dominio.Entidades;
+using Cepedi.Banco.Pessoa.Compartilhado.Exceptions;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -24,29 +24,29 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
         public async Task<Result<AtualizarPessoaResponse>> Handle(AtualizarPessoaRequest request, CancellationToken cancellationToken)
         {
-           
-                var pessoa = await _pessoaRepository.ObterPessoaAsync(request.Id);
+            var pessoa = await _pessoaRepository.ObterPessoaAsync(request.Id);
+            if (pessoa == null)
+            {
+                return Result.Error<AtualizarPessoaResponse>(new SemResultadosExcecao());
+            }
 
-               
-                pessoa.Atualizar(request);
+            pessoa.Atualizar(request);
+            var pessoaAtualizada = await _pessoaRepository.AtualizarPessoaAsync(pessoa);
 
-                var pessoaAtualizada = await _pessoaRepository.AtualizarPessoaAsync(pessoa);
+            var response = new AtualizarPessoaResponse
+            {
+                Id = pessoaAtualizada.Id,
+                Nome = pessoaAtualizada.Nome,
+                Email = pessoaAtualizada.Email,
+                DataNascimento = pessoaAtualizada.DataNascimento,
+                Cpf = pessoaAtualizada.Cpf,
+                Genero = pessoaAtualizada.Genero,
+                EstadoCivil = pessoaAtualizada.EstadoCivil,
+                Nacionalidade = pessoaAtualizada.Nacionalidade
+            };
 
-                var response = new AtualizarPessoaResponse
-                {
-                    Id = pessoaAtualizada.Id,
-                    Nome = pessoaAtualizada.Nome,
-                    Email = pessoaAtualizada.Email,
-                    DataNascimento = pessoaAtualizada.DataNascimento,
-                    Cpf = pessoaAtualizada.Cpf,
-                    Genero = pessoaAtualizada.Genero,
-                    EstadoCivil = pessoaAtualizada.EstadoCivil,
-                    Nacionalidade = pessoaAtualizada.Nacionalidade
-                };
-
-                return Result.Success(response);
-            
-            
+            return Result.Success(response);
         }
+
     }
 }

@@ -1,5 +1,6 @@
 using Cepedi.Banco.Pessoa.Compartilhado.Responses;
 using Cepedi.Banco.Pessoa.Compartilhado.Requests;
+using Cepedi.Banco.Pessoa.Compartilhado.Exceptions;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -24,34 +25,31 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
         public async Task<Result<ObterTodasPessoasResponse>> Handle(ObterTodasPessoasRequest request, CancellationToken cancellationToken)
         {
-            
-                var pessoas = await _pessoaRepository.ObterTodasPessoasAsync();
+            var pessoas = await _pessoaRepository.ObterTodasPessoasAsync();
+            if (pessoas == null || !pessoas.Any())
+            {
+                return Result.Error<ObterTodasPessoasResponse>(new SemResultadosExcecao());
+            }
 
-                var pessoaResponses = new List<ObterPessoaResponse>();
-                foreach (var pessoa in pessoas)
-                {
-                    pessoaResponses.Add(new ObterPessoaResponse
-                    {
-                        Id = pessoa.Id,
-                        Nome = pessoa.Nome,
-                        Email = pessoa.Email,
-                        DataNascimento = pessoa.DataNascimento,
-                        Cpf = pessoa.Cpf,
-                        Genero = pessoa.Genero,
-                        EstadoCivil = pessoa.EstadoCivil,
-                        Nacionalidade = pessoa.Nacionalidade
+            var pessoaResponses = pessoas.Select(p => new ObterPessoaResponse
+            {
+                Id = p.Id,
+                Nome = p.Nome,
+                Email = p.Email,
+                DataNascimento = p.DataNascimento,
+                Cpf = p.Cpf,
+                Genero = p.Genero,
+                EstadoCivil = p.EstadoCivil,
+                Nacionalidade = p.Nacionalidade
+            }).ToList();
 
-                    });
-                }
+            var response = new ObterTodasPessoasResponse
+            {
+                Pessoas = pessoaResponses
+            };
 
-                var response = new ObterTodasPessoasResponse
-                {
-                    Pessoas = pessoaResponses
-                };
-
-                return Result.Success(response);
-            
-           
+            return Result.Success(response);
         }
+
     }
 }
