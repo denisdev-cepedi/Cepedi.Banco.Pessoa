@@ -1,12 +1,16 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Cepedi.Banco.Pessoa.Compartilhado;
 using Cepedi.Banco.Pessoa.Dados;
+using Cepedi.Banco.Pessoa.Dados.Repositorios;
 using Cepedi.Banco.Pessoa.Dominio.Pipelines;
+using Cepedi.Banco.Pessoa.Dominio.Repository;
+using Cepedi.Banco.Pessoa.Dominio.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Refit;
 
 namespace Cepedi.Banco.Pessoa.IoC
 {
@@ -16,15 +20,19 @@ namespace Cepedi.Banco.Pessoa.IoC
         public static void ConfigureAppDependencies(this IServiceCollection services, IConfiguration configuration)
         {
             ConfigureDbContext(services, configuration);
-            services.AddMediatR(cfg => 
-            cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
             //services.AddMediatR(new[] { typeof(IDomainEntryPoint).Assembly });
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ExcecaoPipeline<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidacaoComportamento<,>));
+
             ConfigurarFluentValidation(services);
 
+            services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+
             //services.AddHttpContextAccessor();
+
+            ConfigurarRefit(services, configuration);
 
             services.AddHealthChecks()
                 .AddDbContextCheck<ApplicationDbContext>();
@@ -47,14 +55,22 @@ namespace Cepedi.Banco.Pessoa.IoC
             }
         }
 
-
+        private static void ConfigurarRefit(IServiceCollection services, IConfiguration configuration)
+        {
+            services.
+                AddRefitClient<IViaCep>().
+                ConfigureHttpClient(httpClient =>
+                    httpClient.BaseAddress = 
+                    new Uri(configuration["Servicos:ViaCep"]!)
+                );
+        }
 
         private static void ConfigureDbContext(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
-                //options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                // options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddScoped<ApplicationDbContextInitialiser>();
