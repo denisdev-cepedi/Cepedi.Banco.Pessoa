@@ -4,7 +4,7 @@ using OperationResult;
 
 namespace Cepedi.Banco.Pessoa.Compartilhado.Requests;
 
-public class ObterTodosTelefonesRequest : IRequest<Result<ObterTodosTelefonesResponse>>
+public class ExcluirTelefoneRequest : IRequest<Result<ExcluirTelefoneResponse>>, IValida
 {
-
+    public int TelefoneId { get; set; }
 }

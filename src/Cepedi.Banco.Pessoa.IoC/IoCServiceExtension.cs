@@ -27,6 +27,7 @@ namespace Cepedi.Banco.Pessoa.IoC
             ConfigurarFluentValidation(services);
 
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+            services.AddScoped<ITelefoneRepository, TelefoneRepository>();
 
             //services.AddHttpContextAccessor();
 
