@@ -28,6 +28,9 @@ namespace Cepedi.Banco.Pessoa.IoC
 
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
             services.AddScoped<ITelefoneRepository, TelefoneRepository>();
+            services.AddScoped<IPessoaRepository, PessoaRepository>();
+
+
 
             //services.AddHttpContextAccessor();
 
@@ -52,17 +55,16 @@ namespace Cepedi.Banco.Pessoa.IoC
             }
         }
 
-
-
         private static void ConfigureDbContext(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
-                options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
-                // options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                //options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddScoped<ApplicationDbContextInitialiser>();
         }
+
     }
 }
