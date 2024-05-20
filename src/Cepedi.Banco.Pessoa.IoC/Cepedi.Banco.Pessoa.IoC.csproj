@@ -15,12 +15,14 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="Refit" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.19" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cepedi.Banco.Pessoa.Dados\Cepedi.Banco.Pessoa.Dados.csproj" />
     <ProjectReference Include="..\Cepedi.Banco.Pessoa.Dominio\Cepedi.Banco.Pessoa.Dominio.csproj" />
     <ProjectReference Include="..\Cepedi.Banco.Pessoa.Compartilhado\Cepedi.Banco.Pessoa.Compartilhado.csproj" />
+    <ProjectReference Include="..\..\Cepedi.Banco.Pessoa.Cache\Cepedi.Banco.Pessoa.Cache.csproj" />
   </ItemGroup>
 
 </Project>

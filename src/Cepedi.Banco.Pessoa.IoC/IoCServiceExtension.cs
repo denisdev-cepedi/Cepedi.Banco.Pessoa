@@ -1,12 +1,16 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Cepedi.Banco.Pessoa.Cache;
 using Cepedi.Banco.Pessoa.Compartilhado;
 using Cepedi.Banco.Pessoa.Dados;
 using Cepedi.Banco.Pessoa.Dados.Repositorios;
 using Cepedi.Banco.Pessoa.Dominio.Pipelines;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
+using Cepedi.Banco.Pessoa.Dominio.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,7 +34,16 @@ namespace Cepedi.Banco.Pessoa.IoC
             services.AddScoped<ITelefoneRepository, TelefoneRepository>();
             services.AddScoped<IPessoaRepository, PessoaRepository>();
 
+            // Cache Redis
+            services.AddStackExchangeRedisCache(obj =>
+            {
+                obj.Configuration = configuration["Redis::Connection"];
+                obj.InstanceName = configuration["Redis::Instance"];
+            });
 
+            services.AddSingleton<IDistributedCache, RedisCache>();
+            services.AddScoped(typeof(ICache<>), typeof(Cache<>));
+            // CacheRedis
 
             //services.AddHttpContextAccessor();
 
