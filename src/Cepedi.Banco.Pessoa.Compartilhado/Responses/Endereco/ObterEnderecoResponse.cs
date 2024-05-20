@@ -11,4 +11,5 @@ public class ObterEnderecoResponse
     public string Uf { get; set; } = default!;
     public string Pais { get; set; } = default!;
     public string Numero { get; set; } = default!;
+    public bool Principal { get; set; } = default!;
 }

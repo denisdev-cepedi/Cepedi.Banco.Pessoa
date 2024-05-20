@@ -37,6 +37,7 @@ public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEndereco
             Uf = request.Uf,
             Pais = request.Pais,
             Numero = request.Numero,
+            Principal = false,
             IdPessoa = request.IdPessoa
         };
 
