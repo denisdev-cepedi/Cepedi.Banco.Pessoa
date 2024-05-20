@@ -7,7 +7,7 @@ using Cepedi.Compartilhado.Exceptions;
 namespace Cepedi.Banco.Pessoa.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("banco-pessoa/v1/telefones")]
 public class TelefoneController : BaseController
 {
     private readonly ILogger<TelefoneController> _logger;
@@ -41,7 +41,7 @@ public class TelefoneController : BaseController
     {
         return await SendCommand(request);
     }
-    
+
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(AtualizarTelefoneResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
