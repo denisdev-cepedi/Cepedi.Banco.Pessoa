@@ -42,23 +42,25 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                 Nome = pessoa.Nome,
                 Endereco = new ObterEnderecoResponse
                 {
-                    Id = pessoa.EnderecoId,
-                    Cep = pessoa.EnderecoCep,
-                    Cidade = pessoa.EnderecoCidade,
-                    Complemento = pessoa.EnderecoComplemento,
-                    Logradouro = pessoa.EnderecoLogradouro,
-                    Bairro = pessoa.EnderecoBairro,
-                    Uf = pessoa.EnderecoUf,
-                    Numero = pessoa.EnderecoNumero,
-                    Pais = pessoa.EnderecoPais,
+                    Id = pessoa.Enderecos.First().Id,
+                    Cep = pessoa.Enderecos.First().Cep,
+                    Cidade = pessoa.Enderecos.First().Cidade,
+                    Complemento = pessoa.Enderecos.First().Complemento,
+                    Logradouro = pessoa.Enderecos.First().Logradouro,
+                    Bairro = pessoa.Enderecos.First().Bairro,
+                    Uf = pessoa.Enderecos.First().Uf,
+                    Numero = pessoa.Enderecos.First().Numero,
+                    Pais = pessoa.Enderecos.First().Pais,
+                    Principal = pessoa.Enderecos.First().Principal
                 },
                 Telefone = new ObterTelefoneResponse
                 {
-                    Id = pessoa.TelefoneId,
-                    CodPais = pessoa.TelefoneCodPais,
-                    Ddd = pessoa.TelefoneDdd,
-                    Numero = pessoa.TelefoneNumero,
-                    Tipo = pessoa.TelefoneTipo,
+                    Id = pessoa.Telefones.First().Id,
+                    CodPais = pessoa.Telefones.First().CodPais,
+                    Ddd = pessoa.Telefones.First().Ddd,
+                    Numero = pessoa.Telefones.First().Numero,
+                    Tipo = pessoa.Telefones.First().Tipo,
+                    Principal = pessoa.Telefones.First().Principal
                 }
             };
 

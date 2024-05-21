@@ -12,7 +12,7 @@ public class PessoaQueryRepository : BaseDapperRepository, IPessoaQueryRepositor
     {
     }
 
-    public async Task<DapperObterPessoaResponse> ObterPessoaPorCpfAsync(string cpf)
+    public async Task<PessoaEntity> ObterPessoaPorCpfAsync(string cpf)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@Cpf", cpf, System.Data.DbType.String);
@@ -51,12 +51,54 @@ public class PessoaQueryRepository : BaseDapperRepository, IPessoaQueryRepositor
                     Where
                         Pessoa.Cpf = @Cpf";
 
-        var retorno = await ExecuteQueryAsync<DapperObterPessoaResponse>(sql, parametros);
+        var pessoas = await ExecuteQueryAsync<DapperObterPessoaResponse>(sql, parametros);
+        var pessoa = pessoas.FirstOrDefault();
 
-        return retorno.FirstOrDefault();
+        if (pessoa == null)
+        {
+            return null;
+        }
+
+        var retorno = new PessoaEntity
+        {
+            Id = pessoa.Id,
+            Cpf = pessoa.Cpf,
+            Email = pessoa.Email,
+            Nome = pessoa.Nome,
+            DataNascimento = pessoa.DataNascimento,
+            Genero = pessoa.Genero,
+            EstadoCivil = pessoa.EstadoCivil,
+            Nacionalidade = pessoa.Nacionalidade,
+            Enderecos = new List<EnderecoEntity>(){
+                new EnderecoEntity{
+                    Id = pessoa.EnderecoId,
+                    Bairro = pessoa.EnderecoBairro,
+                    Cep = pessoa.EnderecoCep,
+                    Cidade = pessoa.EnderecoCidade,
+                    Complemento = pessoa.EnderecoComplemento,
+                    Logradouro = pessoa.EnderecoLogradouro,
+                    Numero = pessoa.EnderecoNumero,
+                    Uf = pessoa.EnderecoUf,
+                    Pais = pessoa.EnderecoPais,
+                    Principal = pessoa.EnderecoPrincipal,
+                }
+            },
+            Telefones = new List<TelefoneEntity>(){
+                new TelefoneEntity{
+                    Id = pessoa.TelefoneId,
+                    CodPais = pessoa.TelefoneCodPais,
+                    Ddd = pessoa.TelefoneDdd,
+                    Numero = pessoa.TelefoneNumero,
+                    Tipo = pessoa.TelefoneTipo,
+                    Principal = pessoa.TelefonePrincipal
+                }
+            }
+        };
+
+        return retorno;
     }
 
-    public async Task<List<DapperObterPessoaResponse>> ObterPessoasAsync()
+    public async Task<List<PessoaEntity>> ObterPessoasAsync()
     {
         var sql = @"SELECT
                         Pessoa.Id,
@@ -90,8 +132,46 @@ public class PessoaQueryRepository : BaseDapperRepository, IPessoaQueryRepositor
                     LEFT JOIN
                         Telefone ON Telefone.IdPessoa = Pessoa.Id AND Telefone.Principal = 1;";
 
-        var retorno = await ExecuteQueryAsync<DapperObterPessoaResponse>(sql, new DynamicParameters());
+        var pessoas = await ExecuteQueryAsync<DapperObterPessoaResponse>(sql, new DynamicParameters());
 
-        return retorno.ToList();
+        var retorno = pessoas.Select(pessoa =>
+            new PessoaEntity
+            {
+                Id = pessoa.Id,
+                Cpf = pessoa.Cpf,
+                Email = pessoa.Email,
+                Nome = pessoa.Nome,
+                DataNascimento = pessoa.DataNascimento,
+                Genero = pessoa.Genero,
+                EstadoCivil = pessoa.EstadoCivil,
+                Nacionalidade = pessoa.Nacionalidade,
+                Enderecos = new List<EnderecoEntity>(){
+                    new EnderecoEntity{
+                        Id = pessoa.EnderecoId,
+                        Bairro = pessoa.EnderecoBairro,
+                        Cep = pessoa.EnderecoCep,
+                        Cidade = pessoa.EnderecoCidade,
+                        Complemento = pessoa.EnderecoComplemento,
+                        Logradouro = pessoa.EnderecoLogradouro,
+                        Numero = pessoa.EnderecoNumero,
+                        Uf = pessoa.EnderecoUf,
+                        Pais = pessoa.EnderecoPais,
+                        Principal = pessoa.EnderecoPrincipal,
+                    }
+                },
+                Telefones = new List<TelefoneEntity>(){
+                    new TelefoneEntity{
+                        Id = pessoa.TelefoneId,
+                        CodPais = pessoa.TelefoneCodPais,
+                        Ddd = pessoa.TelefoneDdd,
+                        Numero = pessoa.TelefoneNumero,
+                        Tipo = pessoa.TelefoneTipo,
+                        Principal = pessoa.TelefonePrincipal
+                    }
+                }
+            }
+        ).ToList();
+
+        return retorno;
     }
 }
