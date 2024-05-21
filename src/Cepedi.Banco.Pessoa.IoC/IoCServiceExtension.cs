@@ -3,8 +3,10 @@ using Cepedi.Banco.Pessoa.Cache;
 using Cepedi.Banco.Pessoa.Compartilhado;
 using Cepedi.Banco.Pessoa.Dados;
 using Cepedi.Banco.Pessoa.Dados.Repositorios;
+using Cepedi.Banco.Pessoa.Dados.Repositorios.Queries;
 using Cepedi.Banco.Pessoa.Dominio.Pipelines;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
+using Cepedi.Banco.Pessoa.Dominio.Repository.Queries;
 using Cepedi.Banco.Pessoa.Dominio.Services;
 using FluentValidation;
 using MediatR;
@@ -33,6 +35,7 @@ namespace Cepedi.Banco.Pessoa.IoC
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
             services.AddScoped<ITelefoneRepository, TelefoneRepository>();
             services.AddScoped<IPessoaRepository, PessoaRepository>();
+            services.AddScoped<IPessoaQueryRepository, PessoaQueryRepository>();
 
             // Cache Redis
             services.AddStackExchangeRedisCache(obj =>
@@ -72,7 +75,7 @@ namespace Cepedi.Banco.Pessoa.IoC
         {
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
-                //options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                // options.UseSqlite(configuration.GetConnectionString("SqliteConnection"));
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 

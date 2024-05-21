@@ -13,6 +13,7 @@ public class EnderecoEntity
     public string Uf { get; set; } = default!;
     public string Pais { get; set; } = default!;
     public string Numero { get; set; } = default!;
+    public bool Principal { get; set; } = default!;
     public int IdPessoa { get; set; }
 
     public PessoaEntity Pessoa { get; set; } = default!;
@@ -27,5 +28,6 @@ public class EnderecoEntity
         Uf = request.Uf;
         Pais = request.Pais;
         Numero = request.Numero;
+        Principal = request.Principal;
     }
 }

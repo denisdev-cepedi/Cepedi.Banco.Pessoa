@@ -14,5 +14,6 @@ public class CadastrarEnderecoRequest : IRequest<Result<CadastrarEnderecoRespons
     public string Uf { get; set; } = default!;
     public string Pais { get; set; } = default!;
     public string Numero { get; set; } = default!;
+    public bool Principal { get; set; } = default!;
     public int IdPessoa { get; set; }
 }

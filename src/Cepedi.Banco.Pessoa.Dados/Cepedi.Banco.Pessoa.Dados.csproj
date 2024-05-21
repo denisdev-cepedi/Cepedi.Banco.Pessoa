@@ -19,7 +19,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Cepedi.Banco.Pessoa.Dominio\Cepedi.Banco.Pessoa.Dominio.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositorios\Queries\" />
-  </ItemGroup>
 </Project>

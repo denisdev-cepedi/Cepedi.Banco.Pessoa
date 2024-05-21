@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 
 namespace Cepedi.Banco.Pessoa.Dados.Repositorios.Queries;
@@ -10,11 +11,11 @@ public abstract class BaseDapperRepository
 
     protected BaseDapperRepository(IConfiguration configuration)
     {
-        _connectionString = 
+        _connectionString =
             configuration.GetConnectionString("DefaultConnection");
     }
 
-    public virtual async Task<IEnumerable<T>> 
+    public virtual async Task<IEnumerable<T>>
         ExecuteQueryAsync<T>(string query, DynamicParameters parametros)
     {
         using var conn = GetConnection();

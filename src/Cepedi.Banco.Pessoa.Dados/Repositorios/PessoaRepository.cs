@@ -54,18 +54,18 @@ public class PessoaRepository : IPessoaRepository
     }
 
     public async Task<List<TelefoneEntity>> ObterTelefonesPessoaAsync(int id)
-{
-    var pessoa = await _context.Pessoa
-        .Include(p => p.Telefones)
-        .FirstOrDefaultAsync(p => p.Id == id);
-
-    if (pessoa == null || pessoa.Telefones == null)
     {
-        return new List<TelefoneEntity>();
-    }
+        var pessoa = await _context.Pessoa
+            .Include(p => p.Telefones)
+            .FirstOrDefaultAsync(p => p.Id == id);
 
-    return pessoa.Telefones.ToList();
-}
+        if (pessoa == null || pessoa.Telefones == null)
+        {
+            return new List<TelefoneEntity>();
+        }
+
+        return pessoa.Telefones.ToList();
+    }
 
 
     public async Task<List<PessoaEntity>> ObterTodasPessoasAsync()

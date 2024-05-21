@@ -38,9 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Banco.Pessoa.Dominio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Banco.Pessoa.Benchmark.Test", "tests\Cepedi.Banco.Pessoa.Performance.Test\Cepedi.Banco.Pessoa.Benchmark.Test.csproj", "{44C7D46D-92D9-4DBB-BD09-566058DB1A06}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F65001BA-5857-4AC5-8411-25B8FAF83592}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cepedi.Banco.Pessoa.Cache", "Cepedi.Banco.Pessoa.Cache\Cepedi.Banco.Pessoa.Cache.csproj", "{6E84B142-29A8-4A96-9FE7-943FB25C8702}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cepedi.Banco.Pessoa.Cache", "src\Cepedi.Banco.Pessoa.Cache\Cepedi.Banco.Pessoa.Cache.csproj", "{6E84B142-29A8-4A96-9FE7-943FB25C8702}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
