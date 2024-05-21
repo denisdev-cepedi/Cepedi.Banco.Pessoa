@@ -46,14 +46,15 @@ public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEndereco
         return Result.Success(new CadastrarEnderecoResponse()
         {
             Id = endereco.Id,
-            Cep = request.Cep,
-            Logradouro = request.Logradouro,
-            Complemento = request.Complemento,
-            Bairro = request.Bairro,
-            Cidade = request.Cidade,
-            Uf = request.Uf,
-            Pais = request.Pais,
-            Numero = request.Numero
+            Cep = endereco.Cep,
+            Logradouro = endereco.Logradouro,
+            Complemento = endereco.Complemento,
+            Bairro = endereco.Bairro,
+            Cidade = endereco.Cidade,
+            Uf = endereco.Uf,
+            Pais = endereco.Pais,
+            Numero = endereco.Numero,
+            Principal = endereco.Principal
         });
     }
 }

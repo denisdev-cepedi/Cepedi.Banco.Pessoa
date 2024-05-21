@@ -34,8 +34,8 @@ public class AtualizarTelefoneRequestHandler : IRequestHandler<AtualizarTelefone
             CodPais = request.CodPais,
             Ddd = request.Ddd,
             Numero = request.Numero,
-            Principal = request.Principal,
-            Tipo = request.Tipo
+            Tipo = request.Tipo,
+            Principal = request.Principal
         });
     }
 }

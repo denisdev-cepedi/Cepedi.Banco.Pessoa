@@ -12,7 +12,7 @@ public class AtualizarTelefoneRequestValidation : AbstractValidator<AtualizarTel
         RuleFor(telefone => telefone.Ddd).MaximumLength(3).WithMessage("O DDD deve possuir até 3 dígitos");
         RuleFor(telefone => telefone.Numero).NotEmpty().WithMessage("O número de telefone deve ser informado");
         RuleFor(telefone => telefone.Numero).Length(9).WithMessage("O número de telefone deve possuir 9 dígitos");
-        RuleFor(telefone => telefone.Principal).NotEmpty().WithMessage("Deve ser informado se é o telefone principal");
+        RuleFor(telefone => telefone.Principal).Must(x => x == false || x == true).WithMessage("Deve ser informado se é o telefone principal");
         RuleFor(telefone => telefone.Tipo).NotEmpty().WithMessage("O tipo do telefone deve ser informado");
     }
 }

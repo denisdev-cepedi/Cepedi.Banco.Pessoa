@@ -32,8 +32,8 @@ public class CadastrarTelefoneRequestHandler : IRequestHandler<CadastrarTelefone
             CodPais = request.CodPais,
             Ddd = request.Ddd,
             Numero = request.Numero,
-            Principal = request.Principal,
             Tipo = request.Tipo,
+            Principal = false,
             IdPessoa = request.IdPessoa
         };
 
@@ -42,11 +42,11 @@ public class CadastrarTelefoneRequestHandler : IRequestHandler<CadastrarTelefone
         return Result.Success(new CadastrarTelefoneResponse()
         {
             Id = telefone.Id,
-            Ddd = request.Ddd,
-            Numero = request.Numero,
-            Principal = request.Principal,
-            Tipo = request.Tipo,
-            IdPessoa = request.IdPessoa
+            Ddd = telefone.Ddd,
+            Numero = telefone.Numero,
+            Tipo = telefone.Tipo,
+            Principal = telefone.Principal,
+            IdPessoa = telefone.IdPessoa
         });
     }
 }
