@@ -10,4 +10,6 @@ public class ObterPessoaResponse
     public string Genero { get; set; } = default!;
     public string EstadoCivil { get; set; } = default!;
     public string Nacionalidade { get; set; } = default!;
+    public ObterEnderecoResponse Endereco { get; set; } = default!;
+    public ObterTelefoneResponse Telefone { get; set; } = default!;
 }

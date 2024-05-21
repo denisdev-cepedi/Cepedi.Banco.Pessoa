@@ -33,13 +33,33 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             var pessoaResponse = new ObterPessoaResponse
             {
                 Id = pessoa.Id,
-                Nome = pessoa.Nome,
-                Email = pessoa.Email,
-                DataNascimento = pessoa.DataNascimento,
                 Cpf = pessoa.Cpf,
-                Genero = pessoa.Genero,
+                DataNascimento = pessoa.DataNascimento,
+                Email = pessoa.Email,
                 EstadoCivil = pessoa.EstadoCivil,
+                Genero = pessoa.Genero,
                 Nacionalidade = pessoa.Nacionalidade,
+                Nome = pessoa.Nome,
+                Endereco = new ObterEnderecoResponse
+                {
+                    Id = pessoa.EnderecoId,
+                    Cep = pessoa.EnderecoCep,
+                    Cidade = pessoa.EnderecoCidade,
+                    Complemento = pessoa.EnderecoComplemento,
+                    Logradouro = pessoa.EnderecoLogradouro,
+                    Bairro = pessoa.EnderecoBairro,
+                    Uf = pessoa.EnderecoUf,
+                    Numero = pessoa.EnderecoNumero,
+                    Pais = pessoa.EnderecoPais,
+                },
+                Telefone = new ObterTelefoneResponse
+                {
+                    Id = pessoa.TelefoneId,
+                    CodPais = pessoa.TelefoneCodPais,
+                    Ddd = pessoa.TelefoneDdd,
+                    Numero = pessoa.TelefoneNumero,
+                    Tipo = pessoa.TelefoneTipo,
+                }
             };
 
             return Result.Success(pessoaResponse);

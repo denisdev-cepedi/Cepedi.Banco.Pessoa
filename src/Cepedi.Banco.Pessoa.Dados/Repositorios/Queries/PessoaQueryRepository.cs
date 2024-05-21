@@ -1,4 +1,5 @@
-﻿using Cepedi.Banco.Pessoa.Dominio.Entidades;
+﻿using Cepedi.Banco.Pessoa.Compartilhado;
+using Cepedi.Banco.Pessoa.Dominio.Entidades;
 using Cepedi.Banco.Pessoa.Dominio.Repository.Queries;
 using Dapper;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +12,7 @@ public class PessoaQueryRepository : BaseDapperRepository, IPessoaQueryRepositor
     {
     }
 
-    public async Task<PessoaEntity> ObterPessoaPorCpfAsync(string cpf)
+    public async Task<DapperObterPessoaResponse> ObterPessoaPorCpfAsync(string cpf)
     {
         var parametros = new DynamicParameters();
         parametros.Add("@Cpf", cpf, System.Data.DbType.String);
@@ -25,18 +26,22 @@ public class PessoaQueryRepository : BaseDapperRepository, IPessoaQueryRepositor
                         Pessoa.Genero,
                         Pessoa.EstadoCivil,
                         Pessoa.Nacionalidade,
-                        Endereco.Cep,
-                        Endereco.Logradouro,
-                        Endereco.Complemento,
-                        Endereco.Bairro,
-                        Endereco.Cidade,
-                        Endereco.Uf,
-                        Endereco.Pais,
-                        Endereco.Numero,
-                        Telefone.CodPais,
-                        Telefone.Ddd,
-                        Telefone.Numero,
-                        Telefone.Tipo
+                        Endereco.Id AS EnderecoId,
+                        Endereco.Cep AS EnderecoCep,
+                        Endereco.Logradouro AS EnderecoLogradouro,
+                        Endereco.Complemento AS EnderecoComplemento,
+                        Endereco.Bairro AS EnderecoBairro,
+                        Endereco.Cidade AS EnderecoCidade,
+                        Endereco.Uf AS EnderecoUf,
+                        Endereco.Pais AS EnderecoPais,
+                        Endereco.Numero AS EnderecoNumero,
+                        Endereco.Principal AS EnderecoPrincipal,
+                        Telefone.Id AS TelefoneId,
+                        Telefone.CodPais AS TelefoneCodPais,
+                        Telefone.Ddd AS TelefoneDdd,
+                        Telefone.Numero AS TelefoneNumero,
+                        Telefone.Tipo AS TelefoneTipo,
+                        Telefone.Principal AS TelefonePrincipal
                     FROM
                         Pessoa
                     LEFT JOIN
@@ -46,12 +51,12 @@ public class PessoaQueryRepository : BaseDapperRepository, IPessoaQueryRepositor
                     Where
                         Pessoa.Cpf = @Cpf";
 
-        var retorno = await ExecuteQueryAsync<PessoaEntity>(sql, parametros);
+        var retorno = await ExecuteQueryAsync<DapperObterPessoaResponse>(sql, parametros);
 
         return retorno.FirstOrDefault();
     }
 
-    public async Task<List<PessoaEntity>> ObterPessoasAsync()
+    public async Task<List<DapperObterPessoaResponse>> ObterPessoasAsync()
     {
         var sql = @"SELECT
                         Pessoa.Id,
@@ -62,18 +67,22 @@ public class PessoaQueryRepository : BaseDapperRepository, IPessoaQueryRepositor
                         Pessoa.Genero,
                         Pessoa.EstadoCivil,
                         Pessoa.Nacionalidade,
-                        Endereco.Cep,
-                        Endereco.Logradouro,
-                        Endereco.Complemento,
-                        Endereco.Bairro,
-                        Endereco.Cidade,
-                        Endereco.Uf,
-                        Endereco.Pais,
-                        Endereco.Numero,
-                        Telefone.CodPais,
-                        Telefone.Ddd,
-                        Telefone.Numero,
-                        Telefone.Tipo
+                        Endereco.Id AS EnderecoId,
+                        Endereco.Cep AS EnderecoCep,
+                        Endereco.Logradouro AS EnderecoLogradouro,
+                        Endereco.Complemento AS EnderecoComplemento,
+                        Endereco.Bairro AS EnderecoBairro,
+                        Endereco.Cidade AS EnderecoCidade,
+                        Endereco.Uf AS EnderecoUf,
+                        Endereco.Pais AS EnderecoPais,
+                        Endereco.Numero AS EnderecoNumero,
+                        Endereco.Principal AS EnderecoPrincipal,
+                        Telefone.Id AS TelefoneId,
+                        Telefone.CodPais AS TelefoneCodPais,
+                        Telefone.Ddd AS TelefoneDdd,
+                        Telefone.Numero AS TelefoneNumero,
+                        Telefone.Tipo AS TelefoneTipo,
+                        Telefone.Principal AS TelefonePrincipal
                     FROM
                         Pessoa
                     LEFT JOIN
@@ -81,7 +90,7 @@ public class PessoaQueryRepository : BaseDapperRepository, IPessoaQueryRepositor
                     LEFT JOIN
                         Telefone ON Telefone.IdPessoa = Pessoa.Id AND Telefone.Principal = 1;";
 
-        var retorno = await ExecuteQueryAsync<PessoaEntity>(sql, new DynamicParameters());
+        var retorno = await ExecuteQueryAsync<DapperObterPessoaResponse>(sql, new DynamicParameters());
 
         return retorno.ToList();
     }
