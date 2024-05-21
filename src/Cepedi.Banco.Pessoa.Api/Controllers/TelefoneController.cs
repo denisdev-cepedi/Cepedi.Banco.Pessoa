@@ -7,7 +7,7 @@ using Cepedi.Compartilhado.Exceptions;
 namespace Cepedi.Banco.Pessoa.Api.Controllers;
 
 [ApiController]
-[Route("banco-pessoa/v1/telefones")]
+[Route("[controller]/v1/Telefones")]
 public class TelefoneController : BaseController
 {
     private readonly ILogger<TelefoneController> _logger;
