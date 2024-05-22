@@ -27,6 +27,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             var pessoa = await _pessoaRepository.ObterPessoaAsync(request.PessoaId);
             if (pessoa == null)
             {
+                _logger.LogError("Pessoa nao encontrada");
                 return Result.Error<ObterPessoaResponse>(new SemResultadosExcecao());
             }
 
