@@ -11,29 +11,30 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers;
 public class CadastrarTelefoneRequestHandler : IRequestHandler<CadastrarTelefoneRequest, Result<CadastrarTelefoneResponse>>
 {
     private readonly ITelefoneRepository _telefoneRepository;
+    private readonly IPessoaRepository _pessoaRepository;
     private readonly ILogger<CadastrarTelefoneRequestHandler> _logger;
-    public CadastrarTelefoneRequestHandler(ITelefoneRepository telefoneRepository, ILogger<CadastrarTelefoneRequestHandler> logger)
+    public CadastrarTelefoneRequestHandler(ITelefoneRepository telefoneRepository, IPessoaRepository pessoaRepository, ILogger<CadastrarTelefoneRequestHandler> logger)
     {
         _telefoneRepository = telefoneRepository;
+        _pessoaRepository = pessoaRepository;
         _logger = logger;
     }
     public async Task<Result<CadastrarTelefoneResponse>> Handle(CadastrarTelefoneRequest request, CancellationToken cancellationToken)
     {
-        // ToDo: Verificar se a pessoa existe
-        // var _pessoa = await pessoaRepository.ObterPessoaAsync(request.IdPessoa);
+        var _pessoa = await _pessoaRepository.ObterPessoaAsync(request.IdPessoa);
 
-        // if (_pessoa is null)
-        // {
-        //     return Result.Error<CadastrarTelefoneResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
-        // }
+        if (_pessoa is null)
+        {
+            return Result.Error<CadastrarTelefoneResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+        }
 
         var telefone = new TelefoneEntity()
         {
             CodPais = request.CodPais,
             Ddd = request.Ddd,
             Numero = request.Numero,
-            Principal = request.Principal,
             Tipo = request.Tipo,
+            Principal = false,
             IdPessoa = request.IdPessoa
         };
 
@@ -42,11 +43,11 @@ public class CadastrarTelefoneRequestHandler : IRequestHandler<CadastrarTelefone
         return Result.Success(new CadastrarTelefoneResponse()
         {
             Id = telefone.Id,
-            Ddd = request.Ddd,
-            Numero = request.Numero,
-            Principal = request.Principal,
-            Tipo = request.Tipo,
-            IdPessoa = request.IdPessoa
+            Ddd = telefone.Ddd,
+            Numero = telefone.Numero,
+            Tipo = telefone.Tipo,
+            Principal = telefone.Principal,
+            IdPessoa = telefone.IdPessoa
         });
     }
 }

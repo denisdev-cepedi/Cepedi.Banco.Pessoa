@@ -34,7 +34,8 @@ public class ObterEnderecoRequestHandler : IRequestHandler<ObterEnderecoRequest,
             Cidade = endereco.Cidade,
             Uf = endereco.Uf,
             Pais = endereco.Pais,
-            Numero = endereco.Numero
+            Numero = endereco.Numero,
+            Principal = endereco.Principal
         });
     }
 }

@@ -30,8 +30,8 @@ public class ObterTelefoneRequestHandler : IRequestHandler<ObterTelefoneRequest,
             CodPais = telefone.CodPais,
             Ddd = telefone.Ddd,
             Numero = telefone.Numero,
-            Principal = telefone.Principal,
-            Tipo = telefone.Tipo
+            Tipo = telefone.Tipo,
+            Principal = telefone.Principal
         });
     }
 }

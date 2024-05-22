@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Cepedi.Banco.Pessoa.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/v1/Enderecos")]
 public class EnderecoController : BaseController
 {
     private readonly ILogger<EnderecoController> _logger;
@@ -34,7 +34,7 @@ public class EnderecoController : BaseController
         return await SendCommand(new ObterEnderecoRequest() { EnderecoId = id });
     }
 
-    [HttpGet("cep/{cep}")]
+    [HttpGet("Cep/{cep}")]
     [ProducesResponseType(typeof(ObterEnderecoPorCepResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]

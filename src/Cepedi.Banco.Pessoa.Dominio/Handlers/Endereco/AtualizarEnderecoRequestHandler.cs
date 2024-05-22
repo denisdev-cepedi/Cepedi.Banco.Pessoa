@@ -38,7 +38,8 @@ public class AtualizarEnderecoRequestHandler : IRequestHandler<AtualizarEndereco
             Cidade = request.Cidade,
             Uf = request.Uf,
             Pais = request.Pais,
-            Numero = request.Numero
+            Numero = request.Numero,
+            Principal = request.Principal
         });
     }
 }

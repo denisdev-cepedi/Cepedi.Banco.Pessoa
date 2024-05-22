@@ -15,5 +15,6 @@ public class AtualizarEnderecoRequestValidation : AbstractValidator<AtualizarEnd
         RuleFor(endereco => endereco.Pais).NotEmpty().WithMessage("O país deve ser informado");
         RuleFor(endereco => endereco.Numero).NotEmpty().WithMessage("O número deve ser informado");
         RuleFor(endereco => endereco.IdPessoa).NotEmpty().WithMessage("O ID da pessoa deve ser informado");
+        RuleFor(endereco => endereco.Principal).Must(x => x == false || x == true).WithMessage("Deve ser informado se é o endereço principal");
     }
 }

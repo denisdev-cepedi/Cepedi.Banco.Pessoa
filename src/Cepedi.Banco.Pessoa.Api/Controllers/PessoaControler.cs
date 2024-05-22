@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Cepedi.Banco.Pessoa.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/v1/Pessoas")]
     public class PessoaController : BaseController
     {
         private readonly ILogger<PessoaController> _logger;
@@ -61,7 +61,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
             return await SendCommand(request);
         }
 
-        [HttpGet("{id}/telefones")]
+        [HttpGet("{id}/Telefones")]
         [ProducesResponseType(typeof(ObterTelefonesPessoaResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
@@ -71,7 +71,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
             return await SendCommand(request);
         }
 
-        [HttpGet("{id}/enderecos")]
+        [HttpGet("{id}/Enderecos")]
         [ProducesResponseType(typeof(ObterEnderecosPessoaResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]

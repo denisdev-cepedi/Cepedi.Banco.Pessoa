@@ -11,21 +11,23 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers;
 public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEnderecoRequest, Result<CadastrarEnderecoResponse>>
 {
     private readonly IEnderecoRepository _enderecoRepository;
+    private readonly IPessoaRepository _pessoaRepository;
     private readonly ILogger<CadastrarEnderecoRequestHandler> _logger;
-    public CadastrarEnderecoRequestHandler(IEnderecoRepository enderecoRepository, ILogger<CadastrarEnderecoRequestHandler> logger)
+
+    public CadastrarEnderecoRequestHandler(IEnderecoRepository enderecoRepository, IPessoaRepository pessoaRepository, ILogger<CadastrarEnderecoRequestHandler> logger)
     {
         _enderecoRepository = enderecoRepository;
+        _pessoaRepository = pessoaRepository;
         _logger = logger;
     }
     public async Task<Result<CadastrarEnderecoResponse>> Handle(CadastrarEnderecoRequest request, CancellationToken cancellationToken)
     {
-        // ToDo: Verificar se a pessoa existe
-        // var _pessoa = await pessoaRepository.ObterPessoaAsync(request.IdPessoa);
+        var _pessoa = await _pessoaRepository.ObterPessoaAsync(request.IdPessoa);
 
-        // if (_pessoa is null)
-        // {
-        //     return Result.Error<CadastrarEnderecoResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
-        // }
+        if (_pessoa is null)
+        {
+            return Result.Error<CadastrarEnderecoResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+        }
 
         var endereco = new EnderecoEntity()
         {
@@ -37,6 +39,7 @@ public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEndereco
             Uf = request.Uf,
             Pais = request.Pais,
             Numero = request.Numero,
+            Principal = false,
             IdPessoa = request.IdPessoa
         };
 
@@ -45,14 +48,15 @@ public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEndereco
         return Result.Success(new CadastrarEnderecoResponse()
         {
             Id = endereco.Id,
-            Cep = request.Cep,
-            Logradouro = request.Logradouro,
-            Complemento = request.Complemento,
-            Bairro = request.Bairro,
-            Cidade = request.Cidade,
-            Uf = request.Uf,
-            Pais = request.Pais,
-            Numero = request.Numero
+            Cep = endereco.Cep,
+            Logradouro = endereco.Logradouro,
+            Complemento = endereco.Complemento,
+            Bairro = endereco.Bairro,
+            Cidade = endereco.Cidade,
+            Uf = endereco.Uf,
+            Pais = endereco.Pais,
+            Numero = endereco.Numero,
+            Principal = endereco.Principal
         });
     }
 }
