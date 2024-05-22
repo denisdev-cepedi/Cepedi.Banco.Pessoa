@@ -11,21 +11,23 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers;
 public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEnderecoRequest, Result<CadastrarEnderecoResponse>>
 {
     private readonly IEnderecoRepository _enderecoRepository;
+    private readonly IPessoaRepository _pessoaRepository;
     private readonly ILogger<CadastrarEnderecoRequestHandler> _logger;
-    public CadastrarEnderecoRequestHandler(IEnderecoRepository enderecoRepository, ILogger<CadastrarEnderecoRequestHandler> logger)
+
+    public CadastrarEnderecoRequestHandler(IEnderecoRepository enderecoRepository, IPessoaRepository pessoaRepository, ILogger<CadastrarEnderecoRequestHandler> logger)
     {
         _enderecoRepository = enderecoRepository;
+        _pessoaRepository = pessoaRepository;
         _logger = logger;
     }
     public async Task<Result<CadastrarEnderecoResponse>> Handle(CadastrarEnderecoRequest request, CancellationToken cancellationToken)
     {
-        // ToDo: Verificar se a pessoa existe
-        // var _pessoa = await pessoaRepository.ObterPessoaAsync(request.IdPessoa);
+        var _pessoa = await _pessoaRepository.ObterPessoaAsync(request.IdPessoa);
 
-        // if (_pessoa is null)
-        // {
-        //     return Result.Error<CadastrarEnderecoResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
-        // }
+        if (_pessoa is null)
+        {
+            return Result.Error<CadastrarEnderecoResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+        }
 
         var endereco = new EnderecoEntity()
         {
