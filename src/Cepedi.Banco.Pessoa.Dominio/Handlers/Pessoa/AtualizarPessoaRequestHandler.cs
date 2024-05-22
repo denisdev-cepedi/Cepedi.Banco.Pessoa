@@ -1,13 +1,9 @@
 using Cepedi.Banco.Pessoa.Compartilhado.Requests;
 using Cepedi.Banco.Pessoa.Compartilhado.Responses;
-using Cepedi.Banco.Pessoa.Compartilhado.Exceptions;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 {
@@ -25,9 +21,17 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
         public async Task<Result<AtualizarPessoaResponse>> Handle(AtualizarPessoaRequest request, CancellationToken cancellationToken)
         {
             var pessoa = await _pessoaRepository.ObterPessoaAsync(request.Id);
-            if (pessoa == null)
+
+            if (pessoa is null)
             {
-                return Result.Error<AtualizarPessoaResponse>(new SemResultadosExcecao());
+                return Result.Error<AtualizarPessoaResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
+            }
+
+            var cpfJaExiste = await _pessoaRepository.ObterPessoaPorCpfAsync(request.Cpf);
+
+            if (cpfJaExiste is null)
+            {
+                return Result.Error<AtualizarPessoaResponse>(new Compartilhado.Exceptions.CpfJaExisteExcecao());
             }
 
             pessoa.Atualizar(request);

@@ -20,9 +20,23 @@ public class AtualizarEnderecoRequestHandler : IRequestHandler<AtualizarEndereco
     public async Task<Result<AtualizarEnderecoResponse>> Handle(AtualizarEnderecoRequest request, CancellationToken cancellationToken)
     {
         var endereco = await _enderecoRepository.ObterEnderecoAsync(request.Id);
-        if (endereco == null)
+
+        if (endereco is null)
         {
-            return Result.Error<AtualizarEnderecoResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+            return Result.Error<AtualizarEnderecoResponse>(new Compartilhado.Exceptions.EnderecoNaoEncontradoExcecao());
+        }
+
+        var enderecoPrincipal = await _enderecoRepository.ObterEnderecoPrincipalAsync(endereco.IdPessoa);
+
+        if (request.Principal == false && (enderecoPrincipal is null || endereco.Id == enderecoPrincipal.Id))
+        {
+            return Result.Error<AtualizarEnderecoResponse>(new Compartilhado.Exceptions.MinimoUmEnderecoPrincipalException());
+        }
+
+        if (enderecoPrincipal is not null && request.Principal == true)
+        {
+            enderecoPrincipal.Principal = false;
+            await _enderecoRepository.AtualizarEnderecoAsync(enderecoPrincipal);
         }
 
         endereco.Atualizar(request);

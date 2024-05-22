@@ -54,4 +54,10 @@ public class EnderecoRepository : IEnderecoRepository
         var enderecos = await _context.Endereco.ToListAsync();
         return enderecos;
     }
+
+    public async Task<EnderecoEntity> ObterEnderecoPrincipalAsync(int id)
+    {
+        var endereco = await _context.Endereco.FirstOrDefaultAsync(e => e.Principal && e.IdPessoa == id);
+        return endereco;
+    }
 }

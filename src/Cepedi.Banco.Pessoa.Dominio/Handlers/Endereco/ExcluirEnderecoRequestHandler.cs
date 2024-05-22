@@ -20,9 +20,10 @@ public class ExcluirEnderecoRequestHandler : IRequestHandler<ExcluirEnderecoRequ
     public async Task<Result<ExcluirEnderecoResponse>> Handle(ExcluirEnderecoRequest request, CancellationToken cancellationToken)
     {
         var endereco = await _enderecoRepository.ObterEnderecoAsync(request.EnderecoId);
-        if (endereco == null)
+
+        if (endereco is null)
         {
-            return Result.Error<ExcluirEnderecoResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+            return Result.Error<ExcluirEnderecoResponse>(new Compartilhado.Exceptions.EnderecoNaoEncontradoExcecao());
         }
 
         await _enderecoRepository.ExcluirEnderecoAsync(endereco);

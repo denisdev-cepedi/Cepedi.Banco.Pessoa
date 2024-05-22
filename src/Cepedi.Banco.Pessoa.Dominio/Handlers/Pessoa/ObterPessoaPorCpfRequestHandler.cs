@@ -1,4 +1,4 @@
-using Cepedi.Banco.Pessoa.Compartilhado.Responses;
+﻿using Cepedi.Banco.Pessoa.Compartilhado.Responses;
 using Cepedi.Banco.Pessoa.Compartilhado.Requests;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
@@ -7,20 +7,21 @@ using OperationResult;
 
 namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 {
-    public class ObterPessoaRequestHandler : IRequestHandler<ObterPessoaRequest, Result<ObterPessoaResponse>>
+    public class ObterPessoaPorCpfRequestHandler : IRequestHandler<ObterPessoaPorCpfRequest, Result<ObterPessoaResponse>>
     {
         private readonly IPessoaRepository _pessoaRepository;
-        private readonly ILogger<ObterPessoaRequestHandler> _logger;
+        private readonly ILogger<ObterPessoaPorCpfRequestHandler> _logger;
 
-        public ObterPessoaRequestHandler(IPessoaRepository pessoaRepository, ILogger<ObterPessoaRequestHandler> logger)
+        public ObterPessoaPorCpfRequestHandler(IPessoaRepository pessoaRepository, ILogger<ObterPessoaPorCpfRequestHandler> logger)
         {
             _pessoaRepository = pessoaRepository;
             _logger = logger;
         }
 
-        public async Task<Result<ObterPessoaResponse>> Handle(ObterPessoaRequest request, CancellationToken cancellationToken)
+        public async Task<Result<ObterPessoaResponse>> Handle(ObterPessoaPorCpfRequest request, CancellationToken cancellationToken)
         {
-            var pessoa = await _pessoaRepository.ObterPessoaAsync(request.PessoaId);
+            var pessoa = await _pessoaRepository.ObterPessoaPorCpfAsync(request.Cpf);
+
             if (pessoa is null)
             {
                 return Result.Error<ObterPessoaResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());

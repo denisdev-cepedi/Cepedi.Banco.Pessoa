@@ -48,4 +48,10 @@ public class TelefoneRepository : ITelefoneRepository
         var telefones = await _context.Telefone.ToListAsync();
         return telefones;
     }
+
+    public async Task<TelefoneEntity> ObterTelefonePrincipalAsync(int id)
+    {
+        var telefone = await _context.Telefone.FirstOrDefaultAsync(t => t.Principal && t.IdPessoa == id);
+        return telefone;
+    }
 }

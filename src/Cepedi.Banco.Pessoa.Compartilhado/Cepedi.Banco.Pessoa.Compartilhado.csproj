@@ -11,7 +11,6 @@
     <Folder Include="Extensions\" />
     <Folder Include="Requests/Endereco/Validations/" />
     <Folder Include="Requests/Telefone/" />
-    <Folder Include="Requests\Pessoa\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.0" />

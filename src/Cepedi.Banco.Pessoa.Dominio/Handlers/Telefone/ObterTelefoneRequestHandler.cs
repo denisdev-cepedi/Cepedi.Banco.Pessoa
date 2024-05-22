@@ -19,9 +19,10 @@ public class ObterTelefoneRequestHandler : IRequestHandler<ObterTelefoneRequest,
     public async Task<Result<ObterTelefoneResponse>> Handle(ObterTelefoneRequest request, CancellationToken cancellationToken)
     {
         var telefone = await _telefoneRepository.ObterTelefoneAsync(request.TelefoneId);
-        if (telefone == null)
+
+        if (telefone is null)
         {
-            return Result.Error<ObterTelefoneResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+            return Result.Error<ObterTelefoneResponse>(new Compartilhado.Exceptions.TelefoneNaoEncontradoExcecao());
         }
 
         return Result.Success(new ObterTelefoneResponse()

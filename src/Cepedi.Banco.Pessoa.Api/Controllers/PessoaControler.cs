@@ -35,6 +35,15 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
             return await SendCommand(new ObterPessoaRequest() { PessoaId = id });
         }
 
+        [HttpGet("cpf/{cpf}")]
+        [ProducesResponseType(typeof(ObterPessoaResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<ObterPessoaResponse>> ObterPessoaPorCpf([FromRoute] string cpf)
+        {
+            return await SendCommand(new ObterPessoaPorCpfRequest() { Cpf = cpf });
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(CadastrarPessoaResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]

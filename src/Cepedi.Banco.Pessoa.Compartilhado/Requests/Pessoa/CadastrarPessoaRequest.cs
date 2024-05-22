@@ -6,7 +6,6 @@ namespace Cepedi.Banco.Pessoa.Compartilhado.Requests;
 
 public class CadastrarPessoaRequest : IRequest<Result<CadastrarPessoaResponse>>
 {
-    public int Id { get; set; }
     public string Nome { get; set; } = default!;
     public string Email { get; set; } = default!;
     public DateTimeOffset DataNascimento { get; set; }

@@ -20,9 +20,10 @@ public class ExcluirTelefoneRequestHandler : IRequestHandler<ExcluirTelefoneRequ
     public async Task<Result<ExcluirTelefoneResponse>> Handle(ExcluirTelefoneRequest request, CancellationToken cancellationToken)
     {
         var telefone = await _telefoneRepository.ObterTelefoneAsync(request.TelefoneId);
-        if (telefone == null)
+
+        if (telefone is null)
         {
-            return Result.Error<ExcluirTelefoneResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+            return Result.Error<ExcluirTelefoneResponse>(new Compartilhado.Exceptions.TelefoneNaoEncontradoExcecao());
         }
 
         await _telefoneRepository.ExcluirTelefoneAsync(telefone);
