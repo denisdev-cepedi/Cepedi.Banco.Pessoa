@@ -9,7 +9,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers;
 
 [ApiController]
 [Route("[controller]/v1/Telefones")]
-[Authorize]
+// [Authorize]
 public class TelefoneController : BaseController
 {
     private readonly ILogger<TelefoneController> _logger;
@@ -47,7 +47,7 @@ public class TelefoneController : BaseController
         return await SendCommand(request);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut]
     [ProducesResponseType(typeof(AtualizarTelefoneResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
@@ -57,13 +57,12 @@ public class TelefoneController : BaseController
         return await SendCommand(request);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete]
     [ProducesResponseType(typeof(ExcluirTelefoneResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<ExcluirTelefoneResponse>> ExcluirTelefone([FromRoute] int id)
+    public async Task<ActionResult<ExcluirTelefoneResponse>> ExcluirTelefone([FromBody] ExcluirTelefoneRequest request)
     {
-        _logger.LogInformation($"Excluindo o telefone {id}");
-        var request = new ExcluirTelefoneRequest() { TelefoneId = id };
+        _logger.LogInformation($"Excluindo o telefone {request.TelefoneId}");
         return await SendCommand(request);
     }
 

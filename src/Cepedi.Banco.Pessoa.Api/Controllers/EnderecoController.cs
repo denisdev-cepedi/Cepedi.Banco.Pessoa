@@ -9,7 +9,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers;
 
 [ApiController]
 [Route("[controller]/v1/Enderecos")]
-[Authorize]
+// [Authorize]
 public class EnderecoController : BaseController
 {
     private readonly ILogger<EnderecoController> _logger;
@@ -57,7 +57,7 @@ public class EnderecoController : BaseController
         return await SendCommand(request);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut]
     [ProducesResponseType(typeof(AtualizarEnderecoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
@@ -67,13 +67,13 @@ public class EnderecoController : BaseController
         return await SendCommand(request);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete]
     [ProducesResponseType(typeof(ExcluirEnderecoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<ExcluirEnderecoResponse>> ExcluirEnderecoAsync([FromRoute] int id)
+    public async Task<ActionResult<ExcluirEnderecoResponse>> ExcluirEnderecoAsync([FromBody] ExcluirEnderecoRequest request)
     {
-        _logger.LogInformation($"Excluindo o endereço {id}");
-        var request = new ExcluirEnderecoRequest() { EnderecoId = id };
+        _logger.LogInformation($"Excluindo o endereço {request.EnderecoId}");
+
         return await SendCommand(request);
     }
 

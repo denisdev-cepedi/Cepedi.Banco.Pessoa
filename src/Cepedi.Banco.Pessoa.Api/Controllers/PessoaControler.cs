@@ -9,7 +9,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
 {
     [ApiController]
     [Route("[controller]/v1/Pessoas")]
-    [Authorize]
+    // [Authorize]
     public class PessoaController : BaseController
     {
         private readonly ILogger<PessoaController> _logger;
@@ -58,7 +58,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
             return await SendCommand(request);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [ProducesResponseType(typeof(AtualizarPessoaResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
@@ -68,13 +68,12 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
             return await SendCommand(request);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         [ProducesResponseType(typeof(ExcluirPessoaResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<ExcluirPessoaResponse>> ExcluirPessoa([FromRoute] int id)
+        public async Task<ActionResult<ExcluirPessoaResponse>> ExcluirPessoa([FromBody] ExcluirPessoaRequest request)
         {
-            _logger.LogInformation($"Excluindo a pessoa {id}");
-            var request = new ExcluirPessoaRequest() { PessoaId = id };
+            _logger.LogInformation($"Excluindo a pessoa {request.PessoaId}");
             return await SendCommand(request);
         }
 
