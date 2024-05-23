@@ -26,6 +26,13 @@ public class ExcluirTelefoneRequestHandler : IRequestHandler<ExcluirTelefoneRequ
             return Result.Error<ExcluirTelefoneResponse>(new Compartilhado.Exceptions.TelefoneNaoEncontradoExcecao());
         }
 
+        var telefonePrincipal = await _telefoneRepository.ObterTelefonePrincipalAsync(telefone.IdPessoa);
+
+        if (telefonePrincipal is not null && request.TelefoneId == telefonePrincipal.Id)
+        {
+            return Result.Error<ExcluirTelefoneResponse>(new Compartilhado.Exceptions.ExclusaoTelefonePrincipalException());
+        }
+
         await _telefoneRepository.ExcluirTelefoneAsync(telefone);
 
         return Result.Success(new ExcluirTelefoneResponse());

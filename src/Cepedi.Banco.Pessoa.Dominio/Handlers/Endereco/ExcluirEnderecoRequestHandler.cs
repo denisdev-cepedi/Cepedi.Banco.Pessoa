@@ -26,6 +26,13 @@ public class ExcluirEnderecoRequestHandler : IRequestHandler<ExcluirEnderecoRequ
             return Result.Error<ExcluirEnderecoResponse>(new Compartilhado.Exceptions.EnderecoNaoEncontradoExcecao());
         }
 
+        var enderecoPrincipal = await _enderecoRepository.ObterEnderecoPrincipalAsync(endereco.IdPessoa);
+
+        if (enderecoPrincipal is not null && request.EnderecoId == enderecoPrincipal.Id)
+        {
+            return Result.Error<ExcluirEnderecoResponse>(new Compartilhado.Exceptions.ExclusaoEnderecoPrincipalException());
+        }
+
         await _enderecoRepository.ExcluirEnderecoAsync(endereco);
 
         return Result.Success(new ExcluirEnderecoResponse());

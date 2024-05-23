@@ -72,4 +72,18 @@ public class BancoCentralMensagemErrors
         Descricao = "É preciso ter pelo menos um endereco principal",
         Tipo = ETipoErro.Erro
     };
+
+    public static ResultadoErro TentativaExclusaoTelefonePrincipal = new()
+    {
+        Titulo = "Tentativa de excluir o telefone principal",
+        Descricao = "Não é possível excluir o telefone principal de uma pessoa",
+        Tipo = ETipoErro.Erro
+    };
+
+    public static ResultadoErro TentativaExclusaoEnderecoPrincipal = new()
+    {
+        Titulo = "Tentativa de excluir o endereco principal",
+        Descricao = "Não é possível excluir o endereco principal de uma pessoa",
+        Tipo = ETipoErro.Erro
+    };
 }

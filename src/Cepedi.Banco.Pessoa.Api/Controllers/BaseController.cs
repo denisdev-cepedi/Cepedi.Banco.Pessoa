@@ -32,12 +32,14 @@ public class BaseController : ControllerBase
 
     protected ActionResult HandleError(Exception error) => error switch
     {
-        MinimoUmEnderecoPrincipalException e => Conflict(FormatErrorMessage(BancoCentralMensagemErrors.MinimoUmEnderecoPrincipal)),
-        MinimoUmTelefonePrincipalException e => Conflict(FormatErrorMessage(BancoCentralMensagemErrors.MinimoUmTelefonePrincipal)),
+        ExclusaoEnderecoPrincipalException e => BadRequest(FormatErrorMessage(BancoCentralMensagemErrors.TentativaExclusaoEnderecoPrincipal)),
+        ExclusaoTelefonePrincipalException e => BadRequest(FormatErrorMessage(BancoCentralMensagemErrors.TentativaExclusaoTelefonePrincipal)),
+        MinimoUmEnderecoPrincipalException e => BadRequest(FormatErrorMessage(BancoCentralMensagemErrors.MinimoUmEnderecoPrincipal)),
+        MinimoUmTelefonePrincipalException e => BadRequest(FormatErrorMessage(BancoCentralMensagemErrors.MinimoUmTelefonePrincipal)),
         PessoaNaoEncontradaExcecao e => NotFound(FormatErrorMessage(BancoCentralMensagemErrors.PessoaNaoEncontrada)),
         EnderecoNaoEncontradoExcecao e => NotFound(FormatErrorMessage(BancoCentralMensagemErrors.EnderecoNaoEncontrado)),
         TelefoneNaoEncontradoExcecao e => NotFound(FormatErrorMessage(BancoCentralMensagemErrors.TelefoneNaoEncontrado)),
-        CpfJaExisteExcecao e => Conflict(FormatErrorMessage(BancoCentralMensagemErrors.CpfJaExiste)),
+        CpfJaExisteExcecao e => BadRequest(FormatErrorMessage(BancoCentralMensagemErrors.CpfJaExiste)),
         RequestInvalidaException e => BadRequest(FormatErrorMessage(BancoCentralMensagemErrors.DadosInvalidos, e.Erros)),
         SemResultadosExcecao e => NoContent(),
         _ => BadRequest(FormatErrorMessage(BancoCentralMensagemErrors.Generico))

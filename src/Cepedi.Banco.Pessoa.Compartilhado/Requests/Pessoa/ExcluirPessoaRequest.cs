@@ -4,7 +4,7 @@ using OperationResult;
 
 namespace Cepedi.Banco.Pessoa.Compartilhado.Requests;
 
-public class ExcluirPessoaRequest : IRequest<Result<ExcluirPessoaResponse>>, IValida
+public class ExcluirPessoaRequest : IRequest<Result<ExcluirPessoaResponse>>
 {
     public int PessoaId { get; set; }
 }

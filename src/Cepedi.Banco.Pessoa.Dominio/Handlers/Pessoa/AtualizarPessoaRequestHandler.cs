@@ -27,9 +27,9 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                 return Result.Error<AtualizarPessoaResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
             }
 
-            var cpfJaExiste = await _pessoaRepository.ObterPessoaPorCpfAsync(request.Cpf);
+            var pessoaExistente = await _pessoaRepository.ObterPessoaPorCpfAsync(request.Cpf);
 
-            if (cpfJaExiste is null)
+            if (pessoaExistente is not null)
             {
                 return Result.Error<AtualizarPessoaResponse>(new Compartilhado.Exceptions.CpfJaExisteExcecao());
             }
