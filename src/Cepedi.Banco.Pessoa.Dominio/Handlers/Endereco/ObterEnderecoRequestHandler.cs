@@ -21,6 +21,7 @@ public class ObterEnderecoRequestHandler : IRequestHandler<ObterEnderecoRequest,
         var endereco = await _enderecoRepository.ObterEnderecoAsync(request.EnderecoId);
         if (endereco == null)
         {
+            _logger.LogError("Endereço com o ID informado não encontrado");
             return Result.Error<ObterEnderecoResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
         }
 

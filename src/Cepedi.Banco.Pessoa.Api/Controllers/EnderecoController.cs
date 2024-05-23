@@ -31,6 +31,7 @@ public class EnderecoController : BaseController
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
     public async Task<ActionResult<ObterEnderecoResponse>> ObterEnderecoAsync([FromRoute] int id)
     {
+        
         return await SendCommand(new ObterEnderecoRequest() { EnderecoId = id });
     }
 
