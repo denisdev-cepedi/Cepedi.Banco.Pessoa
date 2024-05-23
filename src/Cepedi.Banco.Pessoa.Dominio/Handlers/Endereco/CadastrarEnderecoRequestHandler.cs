@@ -62,7 +62,8 @@ public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEndereco
             Uf = endereco.Uf,
             Pais = endereco.Pais,
             Numero = endereco.Numero,
-            Principal = endereco.Principal
+            Principal = endereco.Principal,
+            IdPessoa = endereco.IdPessoa
         });
     }
 }

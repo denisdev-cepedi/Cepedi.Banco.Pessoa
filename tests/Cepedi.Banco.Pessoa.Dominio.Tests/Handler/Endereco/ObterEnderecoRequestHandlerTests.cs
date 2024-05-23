@@ -11,27 +11,27 @@ using OperationResult;
 
 namespace Cepedi.Banco.Pessoa.Domain.Tests;
 
-public class ObterEnderecoPorCepRequestHandlerTests
+public class ObterEnderecoRequestHandlerTests
 {
     private readonly IEnderecoRepository _enderecoRepository = Substitute.For<IEnderecoRepository>();
-    private readonly ILogger<ObterEnderecoPorCepRequestHandler> _logger = Substitute.For<ILogger<ObterEnderecoPorCepRequestHandler>>();
-    private readonly ObterEnderecoPorCepRequestHandler _sut;
+    private readonly ILogger<ObterEnderecoRequestHandler> _logger = Substitute.For<ILogger<ObterEnderecoRequestHandler>>();
+    private readonly ObterEnderecoRequestHandler _sut;
 
-    public ObterEnderecoPorCepRequestHandlerTests()
+    public ObterEnderecoRequestHandlerTests()
     {
-        _sut = new ObterEnderecoPorCepRequestHandler(_enderecoRepository, _logger);
+        _sut = new ObterEnderecoRequestHandler(_enderecoRepository, _logger);
     }
 
     [Fact]
-    public async Task ObterEnderecoPorCepAsync_QuandoObter_DeveRetornarSucesso()
+    public async Task ObterEnderecoAsync_QuandoObter_DeveRetornarSucesso()
     {
         //Arrange 
-        var request = new ObterEnderecoPorCepRequest { Cep = "45656000" };
+        var request = new ObterEnderecoRequest { EnderecoId = 1 };
 
         var enderecoEntity = new EnderecoEntity
         {
             Id = 1,
-            Cep = "45656000",
+            Cep = "12345678",
             Logradouro = "Logradouro",
             Complemento = "Complemento",
             Bairro = "Bairro",
@@ -39,16 +39,17 @@ public class ObterEnderecoPorCepRequestHandlerTests
             Uf = "UF",
             Pais = "Pais",
             Numero = "123",
+            Principal = true,
             IdPessoa = 1
         };
 
-        _enderecoRepository.ObterEnderecoPorCepAsync(It.IsAny<string>()).ReturnsForAnyArgs(enderecoEntity);
+        _enderecoRepository.ObterEnderecoAsync(It.IsAny<int>()).ReturnsForAnyArgs(enderecoEntity);
 
         //Act
         var result = await _sut.Handle(request, CancellationToken.None);
 
         //Assert 
-        result.Should().BeOfType<Result<ObterEnderecoPorCepResponse>>().Which.Value.Cep.Should().Be(request.Cep);
+        result.Should().BeOfType<Result<ObterEnderecoResponse>>().Which.Value.Id.Should().Be(request.EnderecoId);
     }
 
 }

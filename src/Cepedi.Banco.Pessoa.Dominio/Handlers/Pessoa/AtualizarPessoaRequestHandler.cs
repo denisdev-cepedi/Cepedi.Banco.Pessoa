@@ -32,7 +32,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
             var pessoaExistente = await _pessoaRepository.ObterPessoaPorCpfAsync(request.Cpf);
 
-            if (pessoaExistente is not null)
+            if (pessoaExistente is not null && pessoaExistente.Id != pessoa.Id)
             {
                 _logger.LogError("Cpf ja existe");
                 return Result.Error<AtualizarPessoaResponse>(new Compartilhado.Exceptions.CpfJaExisteExcecao());

@@ -71,8 +71,7 @@ namespace Cepedi.Banco.Pessoa.Api.Tests
                 Cidade = "Cidade",
                 Uf = "UF",
                 Pais = "Pais",
-                Numero = "123",
-                IdPessoa = 1
+                Numero = "123"
             };
 
             var response = new AtualizarEnderecoResponse()
@@ -111,7 +110,7 @@ namespace Cepedi.Banco.Pessoa.Api.Tests
             _mediator.Send(request).ReturnsForAnyArgs(Result.Success(response));
 
             // Act
-            await _sut.ExcluirEnderecoAsync(request.EnderecoId);
+            await _sut.ExcluirEnderecoAsync(request);
 
             // Assert
             await _mediator.ReceivedWithAnyArgs().Send(request);

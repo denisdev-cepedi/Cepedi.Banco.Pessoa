@@ -3,11 +3,11 @@ using Cepedi.Banco.Pessoa.Compartilhado.Responses;
 using Cepedi.Banco.Pessoa.Dominio.Entidades;
 using Cepedi.Banco.Pessoa.Dominio.Handlers;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
-using Cepedi.Compartilhado.Responses;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using OperationResult;
 
 namespace Cepedi.Banco.Pessoa.Domain.Tests;
@@ -15,12 +15,14 @@ namespace Cepedi.Banco.Pessoa.Domain.Tests;
 public class AtualizarEnderecoRequestHandlerTests
 {
     private readonly IEnderecoRepository _enderecoRepository = Substitute.For<IEnderecoRepository>();
+    private readonly IPessoaRepository _pessoaRepository = Substitute.For<IPessoaRepository>();
+    private readonly IUnitOfWork _uinityOfWork = Substitute.For<IUnitOfWork>();
     private readonly ILogger<AtualizarEnderecoRequestHandler> _logger = Substitute.For<ILogger<AtualizarEnderecoRequestHandler>>();
     private readonly AtualizarEnderecoRequestHandler _sut;
 
     public AtualizarEnderecoRequestHandlerTests()
     {
-        _sut = new AtualizarEnderecoRequestHandler(_enderecoRepository, _logger);
+        _sut = new AtualizarEnderecoRequestHandler(_enderecoRepository, _pessoaRepository, _uinityOfWork, _logger);
     }
 
     [Fact]
@@ -37,7 +39,7 @@ public class AtualizarEnderecoRequestHandlerTests
             Uf = "UF",
             Pais = "Pais",
             Numero = "123",
-            IdPessoa = 1
+            Principal = true
         };
 
         var enderecoEntity = new EnderecoEntity
@@ -51,9 +53,11 @@ public class AtualizarEnderecoRequestHandlerTests
             Uf = "UF",
             Pais = "Pais",
             Numero = "123",
+            Principal = true,
             IdPessoa = 1
         };
 
+        _pessoaRepository.ObterEnderecoPrincipalAsync(It.IsAny<int>()).ReturnsNullForAnyArgs();
         _enderecoRepository.ObterEnderecoAsync(It.IsAny<int>()).ReturnsForAnyArgs(new EnderecoEntity());
         _enderecoRepository.AtualizarEnderecoAsync(It.IsAny<EnderecoEntity>()).ReturnsForAnyArgs(enderecoEntity);
 
@@ -62,7 +66,6 @@ public class AtualizarEnderecoRequestHandlerTests
 
         //Assert 
         result.Should().BeOfType<Result<AtualizarEnderecoResponse>>().Which.Value.Cep.Should().Be(request.Cep);
-
         result.Should().BeOfType<Result<AtualizarEnderecoResponse>>().Which.Value.Cep.Should().NotBeEmpty();
     }
 

@@ -39,6 +39,7 @@ public class ObterTodosEnderecosRequestHandlerTests
                 Uf = "UF",
                 Pais = "Pais",
                 Numero = "123",
+                Principal = true,
                 IdPessoa = 1
             },
             new EnderecoEntity {
@@ -51,6 +52,7 @@ public class ObterTodosEnderecosRequestHandlerTests
                 Uf = "UF",
                 Pais = "Pais",
                 Numero = "123",
+                Principal = false,
                 IdPessoa = 1
             }
         };
