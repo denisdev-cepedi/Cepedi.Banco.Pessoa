@@ -14,11 +14,13 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
     public class CadastrarPessoaRequestHandler : IRequestHandler<CadastrarPessoaRequest, Result<CadastrarPessoaResponse>>
     {
         private readonly IPessoaRepository _pessoaRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<CadastrarPessoaRequestHandler> _logger;
 
-        public CadastrarPessoaRequestHandler(IPessoaRepository pessoaRepository, ILogger<CadastrarPessoaRequestHandler> logger)
+        public CadastrarPessoaRequestHandler(IPessoaRepository pessoaRepository, IUnitOfWork unitOfWork, ILogger<CadastrarPessoaRequestHandler> logger)
         {
             _pessoaRepository = pessoaRepository;
+            _unitOfWork = unitOfWork;
             _logger = logger;
         }
 
@@ -43,6 +45,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             };
 
             await _pessoaRepository.CadastrarPessoaAsync(pessoa);
+            await _unitOfWork.SaveChangesAsync();
 
             return Result.Success(new CadastrarPessoaResponse()
             {

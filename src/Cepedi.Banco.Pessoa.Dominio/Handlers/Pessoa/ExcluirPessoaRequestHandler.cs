@@ -10,11 +10,13 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
     public class ExcluirPessoaRequestHandler : IRequestHandler<ExcluirPessoaRequest, Result<ExcluirPessoaResponse>>
     {
         private readonly IPessoaRepository _pessoaRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<ExcluirPessoaRequestHandler> _logger;
 
-        public ExcluirPessoaRequestHandler(IPessoaRepository pessoaRepository, ILogger<ExcluirPessoaRequestHandler> logger)
+        public ExcluirPessoaRequestHandler(IPessoaRepository pessoaRepository, IUnitOfWork unitOfWork, ILogger<ExcluirPessoaRequestHandler> logger)
         {
             _pessoaRepository = pessoaRepository;
+            _unitOfWork = unitOfWork;
             _logger = logger;
         }
 
@@ -28,6 +30,8 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             }
 
             await _pessoaRepository.ExcluirPessoaAsync(pessoa);
+            await _unitOfWork.SaveChangesAsync();
+
             return Result.Success(new ExcluirPessoaResponse());
         }
 

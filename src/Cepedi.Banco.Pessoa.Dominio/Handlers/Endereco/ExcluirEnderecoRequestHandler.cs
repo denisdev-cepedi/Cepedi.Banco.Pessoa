@@ -11,11 +11,13 @@ public class ExcluirEnderecoRequestHandler : IRequestHandler<ExcluirEnderecoRequ
 {
     private readonly IEnderecoRepository _enderecoRepository;
     private readonly IPessoaRepository _pessoaRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ExcluirEnderecoRequestHandler> _logger;
-    public ExcluirEnderecoRequestHandler(IEnderecoRepository enderecoRepository, IPessoaRepository pessoaRepository, ILogger<ExcluirEnderecoRequestHandler> logger)
+    public ExcluirEnderecoRequestHandler(IEnderecoRepository enderecoRepository, IPessoaRepository pessoaRepository, IUnitOfWork unitOfWork, ILogger<ExcluirEnderecoRequestHandler> logger)
     {
         _enderecoRepository = enderecoRepository;
         _pessoaRepository = pessoaRepository;
+        _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
@@ -36,6 +38,7 @@ public class ExcluirEnderecoRequestHandler : IRequestHandler<ExcluirEnderecoRequ
         }
 
         await _enderecoRepository.ExcluirEnderecoAsync(endereco);
+        await _unitOfWork.SaveChangesAsync();
 
         return Result.Success(new ExcluirEnderecoResponse());
     }

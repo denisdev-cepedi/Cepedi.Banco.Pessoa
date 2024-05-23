@@ -12,12 +12,14 @@ public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEndereco
 {
     private readonly IEnderecoRepository _enderecoRepository;
     private readonly IPessoaRepository _pessoaRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<CadastrarEnderecoRequestHandler> _logger;
 
-    public CadastrarEnderecoRequestHandler(IEnderecoRepository enderecoRepository, IPessoaRepository pessoaRepository, ILogger<CadastrarEnderecoRequestHandler> logger)
+    public CadastrarEnderecoRequestHandler(IEnderecoRepository enderecoRepository, IPessoaRepository pessoaRepository, IUnitOfWork unitOfWork, ILogger<CadastrarEnderecoRequestHandler> logger)
     {
         _enderecoRepository = enderecoRepository;
         _pessoaRepository = pessoaRepository;
+        _unitOfWork = unitOfWork;
         _logger = logger;
     }
     public async Task<Result<CadastrarEnderecoResponse>> Handle(CadastrarEnderecoRequest request, CancellationToken cancellationToken)
@@ -44,6 +46,7 @@ public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEndereco
         };
 
         await _enderecoRepository.CadastrarEnderecoAsync(endereco);
+        await _unitOfWork.SaveChangesAsync();
 
         return Result.Success(new CadastrarEnderecoResponse()
         {

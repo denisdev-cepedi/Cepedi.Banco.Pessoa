@@ -30,6 +30,7 @@ namespace Cepedi.Banco.Pessoa.IoC
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
             services.AddScoped<ITelefoneRepository, TelefoneRepository>();
             services.AddScoped<IPessoaRepository, PessoaRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             ConfigurarSso(services, configuration);
             ConfigurarFluentValidation(services);

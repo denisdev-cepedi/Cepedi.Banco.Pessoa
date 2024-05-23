@@ -11,11 +11,13 @@ public class AtualizarEnderecoRequestHandler : IRequestHandler<AtualizarEndereco
 {
     private readonly IEnderecoRepository _enderecoRepository;
     private readonly IPessoaRepository _pessoaRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<AtualizarEnderecoRequestHandler> _logger;
-    public AtualizarEnderecoRequestHandler(IEnderecoRepository enderecoRepository, IPessoaRepository pessoaRepository, ILogger<AtualizarEnderecoRequestHandler> logger)
+    public AtualizarEnderecoRequestHandler(IEnderecoRepository enderecoRepository, IPessoaRepository pessoaRepository, IUnitOfWork unitOfWork, ILogger<AtualizarEnderecoRequestHandler> logger)
     {
         _enderecoRepository = enderecoRepository;
         _pessoaRepository = pessoaRepository;
+        _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
@@ -43,6 +45,7 @@ public class AtualizarEnderecoRequestHandler : IRequestHandler<AtualizarEndereco
 
         endereco.Atualizar(request);
         await _enderecoRepository.AtualizarEnderecoAsync(endereco);
+        await _unitOfWork.SaveChangesAsync();
 
         return Result.Success(new AtualizarEnderecoResponse()
         {

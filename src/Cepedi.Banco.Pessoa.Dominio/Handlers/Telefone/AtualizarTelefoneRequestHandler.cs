@@ -11,11 +11,13 @@ public class AtualizarTelefoneRequestHandler : IRequestHandler<AtualizarTelefone
 {
     private readonly ITelefoneRepository _telefoneRepository;
     private readonly IPessoaRepository _pessoaRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<AtualizarTelefoneRequestHandler> _logger;
-    public AtualizarTelefoneRequestHandler(ITelefoneRepository telefoneRepository, IPessoaRepository pessoaRepository, ILogger<AtualizarTelefoneRequestHandler> logger)
+    public AtualizarTelefoneRequestHandler(ITelefoneRepository telefoneRepository, IPessoaRepository pessoaRepository, IUnitOfWork unitOfWork, ILogger<AtualizarTelefoneRequestHandler> logger)
     {
         _telefoneRepository = telefoneRepository;
         _pessoaRepository = pessoaRepository;
+        _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
@@ -43,6 +45,7 @@ public class AtualizarTelefoneRequestHandler : IRequestHandler<AtualizarTelefone
 
         telefone.Atualizar(request);
         await _telefoneRepository.AtualizarTelefoneAsync(telefone);
+        await _unitOfWork.SaveChangesAsync();
 
         return Result.Success(new AtualizarTelefoneResponse()
         {

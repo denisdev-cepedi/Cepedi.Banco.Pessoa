@@ -11,11 +11,13 @@ public class ExcluirTelefoneRequestHandler : IRequestHandler<ExcluirTelefoneRequ
 {
     private readonly ITelefoneRepository _telefoneRepository;
     private readonly IPessoaRepository _pessoaRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ExcluirTelefoneRequestHandler> _logger;
-    public ExcluirTelefoneRequestHandler(ITelefoneRepository telefoneRepository, IPessoaRepository pessoaRepository, ILogger<ExcluirTelefoneRequestHandler> logger)
+    public ExcluirTelefoneRequestHandler(ITelefoneRepository telefoneRepository, IPessoaRepository pessoaRepository, IUnitOfWork unitOfWork, ILogger<ExcluirTelefoneRequestHandler> logger)
     {
         _telefoneRepository = telefoneRepository;
         _pessoaRepository = pessoaRepository;
+        _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
@@ -36,6 +38,7 @@ public class ExcluirTelefoneRequestHandler : IRequestHandler<ExcluirTelefoneRequ
         }
 
         await _telefoneRepository.ExcluirTelefoneAsync(telefone);
+        await _unitOfWork.SaveChangesAsync();
 
         return Result.Success(new ExcluirTelefoneResponse());
     }
