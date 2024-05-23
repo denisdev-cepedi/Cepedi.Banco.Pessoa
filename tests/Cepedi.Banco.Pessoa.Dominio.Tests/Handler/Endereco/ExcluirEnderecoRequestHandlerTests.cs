@@ -14,12 +14,14 @@ namespace Cepedi.Banco.Pessoa.Domain.Tests;
 public class ExcluirEnderecoPorCepRequestHandlerTests
 {
     private readonly IEnderecoRepository _enderecoRepository = Substitute.For<IEnderecoRepository>();
+    private readonly IPessoaRepository _pessoaRepository = Substitute.For<IPessoaRepository>();
+    private readonly IUnitOfWork _uinityOfWork = Substitute.For<IUnitOfWork>();
     private readonly ILogger<ExcluirEnderecoRequestHandler> _logger = Substitute.For<ILogger<ExcluirEnderecoRequestHandler>>();
     private readonly ExcluirEnderecoRequestHandler _sut;
 
     public ExcluirEnderecoPorCepRequestHandlerTests()
     {
-        _sut = new ExcluirEnderecoRequestHandler(_enderecoRepository, _logger);
+        _sut = new ExcluirEnderecoRequestHandler(_enderecoRepository, _pessoaRepository, _uinityOfWork, _logger);
     }
 
     [Fact]
@@ -42,7 +44,8 @@ public class ExcluirEnderecoPorCepRequestHandlerTests
             IdPessoa = 1
         };
 
-        _enderecoRepository.ObterEnderecoAsync(request.EnderecoId).ReturnsForAnyArgs(new EnderecoEntity());
+        _enderecoRepository.ObterEnderecoAsync(request.EnderecoId).ReturnsForAnyArgs(enderecoEntity);
+        _pessoaRepository.ObterEnderecoPrincipalAsync(request.EnderecoId).ReturnsForAnyArgs(new EnderecoEntity() { Id = 2 });
         _enderecoRepository.ExcluirEnderecoAsync(It.IsAny<EnderecoEntity>()).ReturnsForAnyArgs(enderecoEntity);
 
         //Act

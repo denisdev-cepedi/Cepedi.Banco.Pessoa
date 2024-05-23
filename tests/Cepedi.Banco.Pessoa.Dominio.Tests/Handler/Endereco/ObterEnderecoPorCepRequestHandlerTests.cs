@@ -11,24 +11,27 @@ using OperationResult;
 
 namespace Cepedi.Banco.Pessoa.Domain.Tests;
 
-public class CadastrarEnderecoRequestHandlerTests
+public class ObterEnderecoPorCepRequestHandlerTests
 {
     private readonly IEnderecoRepository _enderecoRepository = Substitute.For<IEnderecoRepository>();
-    private readonly ILogger<CadastrarEnderecoRequestHandler> _logger = Substitute.For<ILogger<CadastrarEnderecoRequestHandler>>();
-    private readonly CadastrarEnderecoRequestHandler _sut;
+    private readonly ILogger<ObterEnderecoPorCepRequestHandler> _logger = Substitute.For<ILogger<ObterEnderecoPorCepRequestHandler>>();
+    private readonly ObterEnderecoPorCepRequestHandler _sut;
 
-    public CadastrarEnderecoRequestHandlerTests()
+    public ObterEnderecoPorCepRequestHandlerTests()
     {
-        _sut = new CadastrarEnderecoRequestHandler(_enderecoRepository, _logger);
+        _sut = new ObterEnderecoPorCepRequestHandler(_enderecoRepository, _logger);
     }
 
     [Fact]
-    public async Task CadastrarEnderecoAsync_QuandoCadastrar_DeveRetornarSucesso()
+    public async Task ObterEnderecoPorCepAsync_QuandoObter_DeveRetornarSucesso()
     {
         //Arrange 
-        var request = new CadastrarEnderecoRequest
+        var request = new ObterEnderecoPorCepRequest { Cep = "00000000" };
+
+        var enderecoEntity = new EnderecoEntity
         {
-            Cep = "12345678",
+            Id = 1,
+            Cep = "00000000",
             Logradouro = "Logradouro",
             Complemento = "Complemento",
             Bairro = "Bairro",
@@ -36,17 +39,17 @@ public class CadastrarEnderecoRequestHandlerTests
             Uf = "UF",
             Pais = "Pais",
             Numero = "123",
+            Principal = true,
             IdPessoa = 1
         };
 
-        _enderecoRepository.CadastrarEnderecoAsync(It.IsAny<EnderecoEntity>()).ReturnsForAnyArgs(new EnderecoEntity());
+        _enderecoRepository.ObterEnderecoPorCepAsync(It.IsAny<string>()).ReturnsForAnyArgs(enderecoEntity);
 
         //Act
         var result = await _sut.Handle(request, CancellationToken.None);
 
         //Assert 
-        result.Should().BeOfType<Result<CadastrarEnderecoResponse>>().Which.Value.Cep.Should().Be(request.Cep);
-        result.Should().BeOfType<Result<CadastrarEnderecoResponse>>().Which.Value.Cep.Should().NotBeEmpty();
+        result.Should().BeOfType<Result<ObterEnderecoPorCepResponse>>().Which.Value.Cep.Should().Be(request.Cep);
     }
 
 }
