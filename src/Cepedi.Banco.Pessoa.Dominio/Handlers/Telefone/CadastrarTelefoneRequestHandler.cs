@@ -12,11 +12,13 @@ public class CadastrarTelefoneRequestHandler : IRequestHandler<CadastrarTelefone
 {
     private readonly ITelefoneRepository _telefoneRepository;
     private readonly IPessoaRepository _pessoaRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<CadastrarTelefoneRequestHandler> _logger;
-    public CadastrarTelefoneRequestHandler(ITelefoneRepository telefoneRepository, IPessoaRepository pessoaRepository, ILogger<CadastrarTelefoneRequestHandler> logger)
+    public CadastrarTelefoneRequestHandler(ITelefoneRepository telefoneRepository, IPessoaRepository pessoaRepository, IUnitOfWork unitOfWork, ILogger<CadastrarTelefoneRequestHandler> logger)
     {
         _telefoneRepository = telefoneRepository;
         _pessoaRepository = pessoaRepository;
+        _unitOfWork = unitOfWork;
         _logger = logger;
     }
     public async Task<Result<CadastrarTelefoneResponse>> Handle(CadastrarTelefoneRequest request, CancellationToken cancellationToken)
@@ -39,6 +41,7 @@ public class CadastrarTelefoneRequestHandler : IRequestHandler<CadastrarTelefone
         };
 
         await _telefoneRepository.CadastrarTelefoneAsync(telefone);
+        await _unitOfWork.SaveChangesAsync();
 
         return Result.Success(new CadastrarTelefoneResponse()
         {

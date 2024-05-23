@@ -10,11 +10,13 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
     public class AtualizarPessoaRequestHandler : IRequestHandler<AtualizarPessoaRequest, Result<AtualizarPessoaResponse>>
     {
         private readonly IPessoaRepository _pessoaRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<AtualizarPessoaRequestHandler> _logger;
 
-        public AtualizarPessoaRequestHandler(IPessoaRepository pessoaRepository, ILogger<AtualizarPessoaRequestHandler> logger)
+        public AtualizarPessoaRequestHandler(IPessoaRepository pessoaRepository, IUnitOfWork unitOfWork, ILogger<AtualizarPessoaRequestHandler> logger)
         {
             _pessoaRepository = pessoaRepository;
+            _unitOfWork = unitOfWork;
             _logger = logger;
         }
 
@@ -36,6 +38,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
             pessoa.Atualizar(request);
             var pessoaAtualizada = await _pessoaRepository.AtualizarPessoaAsync(pessoa);
+            await _unitOfWork.SaveChangesAsync();
 
             var response = new AtualizarPessoaResponse
             {

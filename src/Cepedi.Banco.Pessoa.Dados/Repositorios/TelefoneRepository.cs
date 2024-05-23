@@ -16,7 +16,6 @@ public class TelefoneRepository : ITelefoneRepository
     public async Task<TelefoneEntity> AtualizarTelefoneAsync(TelefoneEntity telefone)
     {
         _context.Telefone.Update(telefone);
-        await _context.SaveChangesAsync();
 
         return telefone;
     }
@@ -24,7 +23,6 @@ public class TelefoneRepository : ITelefoneRepository
     public async Task<TelefoneEntity> CadastrarTelefoneAsync(TelefoneEntity telefone)
     {
         _context.Telefone.Add(telefone);
-        await _context.SaveChangesAsync();
 
         return telefone;
     }
@@ -32,7 +30,6 @@ public class TelefoneRepository : ITelefoneRepository
     public async Task<TelefoneEntity> ExcluirTelefoneAsync(TelefoneEntity telefone)
     {
         _context.Telefone.Remove(telefone);
-        await _context.SaveChangesAsync();
 
         return telefone;
     }
