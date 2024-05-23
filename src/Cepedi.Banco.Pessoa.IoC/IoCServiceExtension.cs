@@ -5,6 +5,9 @@ using Cepedi.Banco.Pessoa.Dados.Repositorios;
 using Cepedi.Banco.Pessoa.Dominio.Pipelines;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
 using FluentValidation;
+using Keycloak.AuthServices.Authentication;
+using Keycloak.AuthServices.Authorization;
+using Keycloak.AuthServices.Sdk.Admin;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,12 +27,12 @@ namespace Cepedi.Banco.Pessoa.IoC
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ExcecaoPipeline<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidacaoComportamento<,>));
 
-            ConfigurarFluentValidation(services);
-
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
             services.AddScoped<ITelefoneRepository, TelefoneRepository>();
             services.AddScoped<IPessoaRepository, PessoaRepository>();
 
+            ConfigurarSso(services, configuration);
+            ConfigurarFluentValidation(services);
 
 
             //services.AddHttpContextAccessor();
@@ -66,5 +69,19 @@ namespace Cepedi.Banco.Pessoa.IoC
             services.AddScoped<ApplicationDbContextInitialiser>();
         }
 
+        private static void ConfigurarSso(IServiceCollection services, IConfiguration configuration)
+        {
+            var authenticationOptions = configuration.GetSection(KeycloakAuthenticationOptions.Section).Get<KeycloakAuthenticationOptions>();
+
+            services.AddKeycloakAuthentication(authenticationOptions!);
+
+            var authorizationOptions = configuration.GetSection(KeycloakProtectionClientOptions.Section).Get<KeycloakProtectionClientOptions>();
+
+            services.AddKeycloakAuthorization(authorizationOptions);
+
+            var adminClientOptions = configuration.GetSection(KeycloakAdminClientOptions.Section).Get<KeycloakAdminClientOptions>();
+
+            services.AddKeycloakAdminHttpClient(adminClientOptions);
+        }
     }
 }
