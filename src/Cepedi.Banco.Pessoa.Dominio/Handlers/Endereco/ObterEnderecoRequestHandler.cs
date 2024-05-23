@@ -19,9 +19,10 @@ public class ObterEnderecoRequestHandler : IRequestHandler<ObterEnderecoRequest,
     public async Task<Result<ObterEnderecoResponse>> Handle(ObterEnderecoRequest request, CancellationToken cancellationToken)
     {
         var endereco = await _enderecoRepository.ObterEnderecoAsync(request.EnderecoId);
-        if (endereco == null)
+
+        if (endereco is null)
         {
-            return Result.Error<ObterEnderecoResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+            return Result.Error<ObterEnderecoResponse>(new Compartilhado.Exceptions.EnderecoNaoEncontradoExcecao());
         }
 
         return Result.Success(new ObterEnderecoResponse()

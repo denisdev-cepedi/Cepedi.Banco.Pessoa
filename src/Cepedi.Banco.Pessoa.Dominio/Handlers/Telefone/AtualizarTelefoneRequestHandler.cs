@@ -10,19 +10,35 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers;
 public class AtualizarTelefoneRequestHandler : IRequestHandler<AtualizarTelefoneRequest, Result<AtualizarTelefoneResponse>>
 {
     private readonly ITelefoneRepository _telefoneRepository;
+    private readonly IPessoaRepository _pessoaRepository;
     private readonly ILogger<AtualizarTelefoneRequestHandler> _logger;
-    public AtualizarTelefoneRequestHandler(ITelefoneRepository telefoneRepository, ILogger<AtualizarTelefoneRequestHandler> logger)
+    public AtualizarTelefoneRequestHandler(ITelefoneRepository telefoneRepository, IPessoaRepository pessoaRepository, ILogger<AtualizarTelefoneRequestHandler> logger)
     {
         _telefoneRepository = telefoneRepository;
+        _pessoaRepository = pessoaRepository;
         _logger = logger;
     }
 
     public async Task<Result<AtualizarTelefoneResponse>> Handle(AtualizarTelefoneRequest request, CancellationToken cancellationToken)
     {
         var telefone = await _telefoneRepository.ObterTelefoneAsync(request.Id);
-        if (telefone == null)
+
+        if (telefone is null)
         {
-            return Result.Error<AtualizarTelefoneResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+            return Result.Error<AtualizarTelefoneResponse>(new Compartilhado.Exceptions.TelefoneNaoEncontradoExcecao());
+        }
+
+        var telefonePrincipal = await _pessoaRepository.ObterTelefonePrincipalAsync(telefone.IdPessoa);
+
+        if (request.Principal == false && (telefonePrincipal is null || telefone.Id == telefonePrincipal.Id))
+        {
+            return Result.Error<AtualizarTelefoneResponse>(new Compartilhado.Exceptions.MinimoUmTelefonePrincipalException());
+        }
+
+        if (telefonePrincipal is not null && request.Principal == true)
+        {
+            telefonePrincipal.Principal = false;
+            await _telefoneRepository.AtualizarTelefoneAsync(telefonePrincipal);
         }
 
         telefone.Atualizar(request);

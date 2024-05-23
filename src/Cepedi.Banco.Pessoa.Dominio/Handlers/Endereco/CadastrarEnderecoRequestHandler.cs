@@ -26,7 +26,7 @@ public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEndereco
 
         if (_pessoa is null)
         {
-            return Result.Error<CadastrarEnderecoResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+            return Result.Error<CadastrarEnderecoResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
         }
 
         var endereco = new EnderecoEntity()

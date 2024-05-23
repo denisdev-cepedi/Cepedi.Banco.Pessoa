@@ -54,18 +54,18 @@ public class PessoaRepository : IPessoaRepository
     }
 
     public async Task<List<TelefoneEntity>> ObterTelefonesPessoaAsync(int id)
-{
-    var pessoa = await _context.Pessoa
-        .Include(p => p.Telefones)
-        .FirstOrDefaultAsync(p => p.Id == id);
-
-    if (pessoa == null || pessoa.Telefones == null)
     {
-        return new List<TelefoneEntity>();
-    }
+        var pessoa = await _context.Pessoa
+            .Include(p => p.Telefones)
+            .FirstOrDefaultAsync(p => p.Id == id);
 
-    return pessoa.Telefones.ToList();
-}
+        if (pessoa == null || pessoa.Telefones == null)
+        {
+            return new List<TelefoneEntity>();
+        }
+
+        return pessoa.Telefones.ToList();
+    }
 
 
     public async Task<List<PessoaEntity>> ObterTodasPessoasAsync()
@@ -75,5 +75,26 @@ public class PessoaRepository : IPessoaRepository
             .Include(p => p.Telefones)
             .ToListAsync();
         return pessoas;
+    }
+
+    public async Task<PessoaEntity> ObterPessoaPorCpfAsync(string cpf)
+    {
+        var pessoa = await _context.Pessoa
+           .Include(p => p.Enderecos)
+           .Include(p => p.Telefones)
+           .FirstOrDefaultAsync(p => p.Cpf == cpf);
+        return pessoa;
+    }
+
+    public async Task<TelefoneEntity> ObterTelefonePrincipalAsync(int id)
+    {
+        var telefone = await _context.Telefone.FirstOrDefaultAsync(t => t.Principal && t.IdPessoa == id);
+        return telefone;
+    }
+
+    public async Task<EnderecoEntity> ObterEnderecoPrincipalAsync(int id)
+    {
+        var endereco = await _context.Endereco.FirstOrDefaultAsync(e => e.Principal && e.IdPessoa == id);
+        return endereco;
     }
 }

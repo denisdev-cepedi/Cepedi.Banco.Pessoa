@@ -1,12 +1,9 @@
 using Cepedi.Banco.Pessoa.Compartilhado.Requests;
 using Cepedi.Banco.Pessoa.Compartilhado.Responses;
-using Cepedi.Banco.Pessoa.Compartilhado.Exceptions;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 {
@@ -24,9 +21,10 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
         public async Task<Result<ExcluirPessoaResponse>> Handle(ExcluirPessoaRequest request, CancellationToken cancellationToken)
         {
             var pessoa = await _pessoaRepository.ObterPessoaAsync(request.PessoaId);
-            if (pessoa == null)
+
+            if (pessoa is null)
             {
-                return Result.Error<ExcluirPessoaResponse>(new SemResultadosExcecao());
+                return Result.Error<ExcluirPessoaResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
             }
 
             await _pessoaRepository.ExcluirPessoaAsync(pessoa);

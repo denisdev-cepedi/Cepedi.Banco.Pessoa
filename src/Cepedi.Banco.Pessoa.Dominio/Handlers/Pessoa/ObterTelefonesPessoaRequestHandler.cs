@@ -1,14 +1,9 @@
 using Cepedi.Banco.Pessoa.Compartilhado.Requests;
 using Cepedi.Banco.Pessoa.Compartilhado.Responses;
-using Cepedi.Banco.Pessoa.Compartilhado.Exceptions;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 {
@@ -25,10 +20,16 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
         public async Task<Result<ObterTelefonesPessoaResponse>> Handle(ObterTelefonesPessoaRequest request, CancellationToken cancellationToken)
         {
-            var telefones = await _pessoaRepository.ObterTelefonesPessoaAsync(request.PessoaId);
-            if (telefones == null || !telefones.Any())
+            var pessoa = await _pessoaRepository.ObterPessoaAsync(request.PessoaId);
+            if (pessoa is null)
             {
-                return Result.Error<ObterTelefonesPessoaResponse>(new SemResultadosExcecao());
+                return Result.Error<ObterTelefonesPessoaResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
+            }
+
+            var telefones = await _pessoaRepository.ObterTelefonesPessoaAsync(request.PessoaId);
+            if (telefones is null)
+            {
+                return Result.Error<ObterTelefonesPessoaResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
             }
 
             var response = new ObterTelefonesPessoaResponse

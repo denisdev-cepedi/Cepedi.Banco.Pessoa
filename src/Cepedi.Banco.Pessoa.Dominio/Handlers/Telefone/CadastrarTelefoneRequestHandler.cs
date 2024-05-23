@@ -25,7 +25,7 @@ public class CadastrarTelefoneRequestHandler : IRequestHandler<CadastrarTelefone
 
         if (_pessoa is null)
         {
-            return Result.Error<CadastrarTelefoneResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
+            return Result.Error<CadastrarTelefoneResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
         }
 
         var telefone = new TelefoneEntity()

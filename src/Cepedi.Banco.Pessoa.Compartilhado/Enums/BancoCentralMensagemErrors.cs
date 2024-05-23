@@ -30,4 +30,60 @@ public class BancoCentralMensagemErrors
         Descricao = "Os dados enviados na requisição são inválidos",
         Tipo = ETipoErro.Erro
     };
+
+    public static ResultadoErro EnderecoNaoEncontrado = new()
+    {
+        Titulo = "Endereço não encontrado",
+        Descricao = "Não foi possível encontrar o endereço informado",
+        Tipo = ETipoErro.Erro
+    };
+
+    public static ResultadoErro TelefoneNaoEncontrado = new()
+    {
+        Titulo = "Telefone não encontrado",
+        Descricao = "Não foi possível encontrar o telefone informado",
+        Tipo = ETipoErro.Erro
+    };
+
+    public static ResultadoErro PessoaNaoEncontrada = new()
+    {
+        Titulo = "Pessoa não encontrada",
+        Descricao = "Não foi possível encontrar a pessoa informada",
+        Tipo = ETipoErro.Erro
+    };
+
+    public static ResultadoErro CpfJaExiste = new()
+    {
+        Titulo = "CPF já existe",
+        Descricao = "Uma pessoa com este CPF já está cadastrada",
+        Tipo = ETipoErro.Erro
+    };
+
+    public static ResultadoErro MinimoUmTelefonePrincipal = new()
+    {
+        Titulo = "Minimo um telefone principal",
+        Descricao = "É preciso ter pelo menos um telefone principal",
+        Tipo = ETipoErro.Erro
+    };
+
+    public static ResultadoErro MinimoUmEnderecoPrincipal = new()
+    {
+        Titulo = "Minimo um endereco principal",
+        Descricao = "É preciso ter pelo menos um endereco principal",
+        Tipo = ETipoErro.Erro
+    };
+
+    public static ResultadoErro TentativaExclusaoTelefonePrincipal = new()
+    {
+        Titulo = "Tentativa de excluir o telefone principal",
+        Descricao = "Não é possível excluir o telefone principal de uma pessoa",
+        Tipo = ETipoErro.Erro
+    };
+
+    public static ResultadoErro TentativaExclusaoEnderecoPrincipal = new()
+    {
+        Titulo = "Tentativa de excluir o endereco principal",
+        Descricao = "Não é possível excluir o endereco principal de uma pessoa",
+        Tipo = ETipoErro.Erro
+    };
 }

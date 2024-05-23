@@ -1,14 +1,9 @@
 using Cepedi.Banco.Pessoa.Compartilhado.Requests;
 using Cepedi.Banco.Pessoa.Compartilhado.Responses;
-using Cepedi.Banco.Pessoa.Compartilhado.Exceptions;
 using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 {
@@ -25,10 +20,15 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
         public async Task<Result<ObterEnderecosPessoaResponse>> Handle(ObterEnderecosPessoaRequest request, CancellationToken cancellationToken)
         {
+            var pessoa = await _pessoaRepository.ObterPessoaAsync(request.PessoaId);
+            if (pessoa is null){
+                return Result.Error<ObterEnderecosPessoaResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
+            }
+            
             var enderecos = await _pessoaRepository.ObterEnderecosPessoaAsync(request.PessoaId);
-            if (enderecos == null || !enderecos.Any())
+            if (enderecos == null)
             {
-                return Result.Error<ObterEnderecosPessoaResponse>(new SemResultadosExcecao());
+                return Result.Error<ObterEnderecosPessoaResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
             }
 
             var enderecoResponses = enderecos.Select(e => new ObterEnderecoResponse
