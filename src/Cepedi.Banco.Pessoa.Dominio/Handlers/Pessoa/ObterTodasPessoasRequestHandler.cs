@@ -23,6 +23,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             var pessoas = await _pessoaRepository.ObterTodasPessoasAsync();
             if (pessoas == null)
             {
+                _logger.LogError("Nenhuma pessoa encontrada");
                 return Result.Error<ObterTodasPessoasResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
             }
 
@@ -42,6 +43,8 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             {
                 Pessoas = pessoaResponses
             };
+
+            _logger.LogInformation("Retornando lista de pessoas");
 
             return Result.Success(response);
         }

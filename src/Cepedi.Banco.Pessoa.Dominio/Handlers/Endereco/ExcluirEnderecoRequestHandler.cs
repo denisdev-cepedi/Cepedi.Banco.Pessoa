@@ -27,6 +27,7 @@ public class ExcluirEnderecoRequestHandler : IRequestHandler<ExcluirEnderecoRequ
 
         if (endereco is null)
         {
+            _logger.LogError("Endereço não encontrado");
             return Result.Error<ExcluirEnderecoResponse>(new Compartilhado.Exceptions.EnderecoNaoEncontradoExcecao());
         }
 
@@ -34,11 +35,14 @@ public class ExcluirEnderecoRequestHandler : IRequestHandler<ExcluirEnderecoRequ
 
         if (enderecoPrincipal is not null && request.EnderecoId == enderecoPrincipal.Id)
         {
+            _logger.LogError("A pessoa deve ter pelo menos um Endereço principal");
             return Result.Error<ExcluirEnderecoResponse>(new Compartilhado.Exceptions.ExclusaoEnderecoPrincipalException());
         }
 
         await _enderecoRepository.ExcluirEnderecoAsync(endereco);
         await _unitOfWork.SaveChangesAsync();
+
+        _logger.LogInformation("Endereço excluido");
 
         return Result.Success(new ExcluirEnderecoResponse());
     }

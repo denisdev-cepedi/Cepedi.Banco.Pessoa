@@ -27,6 +27,7 @@ public class AtualizarTelefoneRequestHandler : IRequestHandler<AtualizarTelefone
 
         if (telefone is null)
         {
+            _logger.LogError("Telefone não encontrado");
             return Result.Error<AtualizarTelefoneResponse>(new Compartilhado.Exceptions.TelefoneNaoEncontradoExcecao());
         }
 
@@ -34,11 +35,13 @@ public class AtualizarTelefoneRequestHandler : IRequestHandler<AtualizarTelefone
 
         if (request.Principal == false && (telefonePrincipal is null || telefone.Id == telefonePrincipal.Id))
         {
+            _logger.LogError("A pessoa deve ter pelo menos um Telefone principal");
             return Result.Error<AtualizarTelefoneResponse>(new Compartilhado.Exceptions.MinimoUmTelefonePrincipalException());
         }
 
         if (telefonePrincipal is not null && request.Principal == true)
         {
+            _logger.LogWarning("Alterando Telefone principal");
             telefonePrincipal.Principal = false;
             await _telefoneRepository.AtualizarTelefoneAsync(telefonePrincipal);
         }
@@ -46,6 +49,8 @@ public class AtualizarTelefoneRequestHandler : IRequestHandler<AtualizarTelefone
         telefone.Atualizar(request);
         await _telefoneRepository.AtualizarTelefoneAsync(telefone);
         await _unitOfWork.SaveChangesAsync();
+
+        _logger.LogInformation("Telefone atualizado");
 
         return Result.Success(new AtualizarTelefoneResponse()
         {

@@ -24,6 +24,7 @@ public class EnderecoController : BaseController
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ObterTodosEnderecosResponse>> ObterTodosEnderecosAsync()
     {
+        _logger.LogInformation("Obtendo todos os endereços");
         return await SendCommand(new ObterTodosEnderecosRequest());
     }
 
@@ -33,6 +34,7 @@ public class EnderecoController : BaseController
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
     public async Task<ActionResult<ObterEnderecoResponse>> ObterEnderecoAsync([FromRoute] int id)
     {
+        _logger.LogInformation($"Obtendo o endereço {id}");
         return await SendCommand(new ObterEnderecoRequest() { EnderecoId = id });
     }
 
@@ -42,6 +44,7 @@ public class EnderecoController : BaseController
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
     public async Task<ActionResult<ObterEnderecoPorCepResponse>> ObterEnderecoPorCepAsync([FromRoute] string cep)
     {
+        _logger.LogInformation($"Obtendo o endereço por CEP: {cep}");
         return await SendCommand(new ObterEnderecoPorCepRequest() { Cep = cep });
     }
 
@@ -50,6 +53,7 @@ public class EnderecoController : BaseController
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CadastrarEnderecoResponse>> CadastrarEnderecoAsync([FromBody] CadastrarEnderecoRequest request)
     {
+        _logger.LogInformation("Cadastrando novo endereço");
         return await SendCommand(request);
     }
 
@@ -59,6 +63,7 @@ public class EnderecoController : BaseController
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
     public async Task<ActionResult<AtualizarEnderecoResponse>> AtualizarEnderecoAsync([FromBody] AtualizarEnderecoRequest request)
     {
+        _logger.LogInformation($"Atualizando o endereço {request.Id}");
         return await SendCommand(request);
     }
 
@@ -67,6 +72,7 @@ public class EnderecoController : BaseController
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
     public async Task<ActionResult<ExcluirEnderecoResponse>> ExcluirEnderecoAsync([FromRoute] int id)
     {
+        _logger.LogInformation($"Excluindo o endereço {id}");
         var request = new ExcluirEnderecoRequest() { EnderecoId = id };
         return await SendCommand(request);
     }

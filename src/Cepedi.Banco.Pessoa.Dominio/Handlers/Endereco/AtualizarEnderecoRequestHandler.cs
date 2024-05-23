@@ -27,6 +27,7 @@ public class AtualizarEnderecoRequestHandler : IRequestHandler<AtualizarEndereco
 
         if (endereco is null)
         {
+            _logger.LogError("Endereço não encontrado");
             return Result.Error<AtualizarEnderecoResponse>(new Compartilhado.Exceptions.EnderecoNaoEncontradoExcecao());
         }
 
@@ -34,11 +35,13 @@ public class AtualizarEnderecoRequestHandler : IRequestHandler<AtualizarEndereco
 
         if (request.Principal == false && (enderecoPrincipal is null || endereco.Id == enderecoPrincipal.Id))
         {
+            _logger.LogError("A pessoa deve ter pelo menos um Endereço principal");
             return Result.Error<AtualizarEnderecoResponse>(new Compartilhado.Exceptions.MinimoUmEnderecoPrincipalException());
         }
 
         if (enderecoPrincipal is not null && request.Principal == true)
         {
+            _logger.LogWarning("Alterando Endereço principal");
             enderecoPrincipal.Principal = false;
             await _enderecoRepository.AtualizarEnderecoAsync(enderecoPrincipal);
         }
@@ -46,6 +49,8 @@ public class AtualizarEnderecoRequestHandler : IRequestHandler<AtualizarEndereco
         endereco.Atualizar(request);
         await _enderecoRepository.AtualizarEnderecoAsync(endereco);
         await _unitOfWork.SaveChangesAsync();
+
+        _logger.LogInformation("Endereço atualizado");
 
         return Result.Success(new AtualizarEnderecoResponse()
         {

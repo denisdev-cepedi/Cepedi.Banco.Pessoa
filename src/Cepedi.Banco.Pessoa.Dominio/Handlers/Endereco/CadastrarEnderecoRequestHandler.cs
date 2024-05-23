@@ -28,6 +28,7 @@ public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEndereco
 
         if (_pessoa is null)
         {
+            _logger.LogError("Pessoa não encontrada");
             return Result.Error<CadastrarEnderecoResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
         }
 
@@ -47,6 +48,8 @@ public class CadastrarEnderecoRequestHandler : IRequestHandler<CadastrarEndereco
 
         await _enderecoRepository.CadastrarEnderecoAsync(endereco);
         await _unitOfWork.SaveChangesAsync();
+
+        _logger.LogInformation("Endereço cadastrado");
 
         return Result.Success(new CadastrarEnderecoResponse()
         {

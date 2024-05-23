@@ -21,13 +21,16 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
         public async Task<Result<ObterEnderecosPessoaResponse>> Handle(ObterEnderecosPessoaRequest request, CancellationToken cancellationToken)
         {
             var pessoa = await _pessoaRepository.ObterPessoaAsync(request.PessoaId);
-            if (pessoa is null){
+            if (pessoa is null)
+            {
+                _logger.LogError("Pessoa não encontrada");
                 return Result.Error<ObterEnderecosPessoaResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
             }
-            
+
             var enderecos = await _pessoaRepository.ObterEnderecosPessoaAsync(request.PessoaId);
             if (enderecos == null)
             {
+                _logger.LogError("Nenhum Endereço encontrado");
                 return Result.Error<ObterEnderecosPessoaResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
             }
 
@@ -48,6 +51,8 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             {
                 Enderecos = enderecoResponses
             };
+
+            _logger.LogInformation("Retornando lista de endereços da pessoa");
 
             return Result.Success(response);
         }

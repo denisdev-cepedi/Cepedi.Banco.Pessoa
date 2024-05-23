@@ -27,6 +27,7 @@ public class CadastrarTelefoneRequestHandler : IRequestHandler<CadastrarTelefone
 
         if (_pessoa is null)
         {
+            _logger.LogError("Pessoa não encontrada");
             return Result.Error<CadastrarTelefoneResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
         }
 
@@ -42,6 +43,8 @@ public class CadastrarTelefoneRequestHandler : IRequestHandler<CadastrarTelefone
 
         await _telefoneRepository.CadastrarTelefoneAsync(telefone);
         await _unitOfWork.SaveChangesAsync();
+
+        _logger.LogInformation("Telefone cadastrado");
 
         return Result.Success(new CadastrarTelefoneResponse()
         {

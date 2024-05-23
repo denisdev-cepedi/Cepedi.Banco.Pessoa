@@ -26,11 +26,14 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
             if (pessoa is null)
             {
+                _logger.LogError("Pessoa não encontrada.");
                 return Result.Error<ExcluirPessoaResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
             }
 
             await _pessoaRepository.ExcluirPessoaAsync(pessoa);
             await _unitOfWork.SaveChangesAsync();
+
+            _logger.LogInformation("Pessoa excluida.");
 
             return Result.Success(new ExcluirPessoaResponse());
         }

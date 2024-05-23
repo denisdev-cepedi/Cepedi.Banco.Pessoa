@@ -22,8 +22,11 @@ public class ObterEnderecoPorCepRequestHandler : IRequestHandler<ObterEnderecoPo
 
         if (endereco is null)
         {
+            _logger.LogError("Endereço não encontrado");
             return Result.Error<ObterEnderecoPorCepResponse>(new Compartilhado.Exceptions.EnderecoNaoEncontradoExcecao());
         }
+
+        _logger.LogInformation("Retornando Endereço encontrado");
 
         return Result.Success(new ObterEnderecoPorCepResponse()
         {

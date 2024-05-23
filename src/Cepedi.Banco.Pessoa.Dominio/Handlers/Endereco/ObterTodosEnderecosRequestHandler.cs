@@ -20,6 +20,9 @@ public class ObterTodosEnderecosRequestHandler : IRequestHandler<ObterTodosEnder
     public async Task<Result<ObterTodosEnderecosResponse>> Handle(ObterTodosEnderecosRequest request, CancellationToken cancellationToken)
     {
         var enderecos = await _enderecoRepository.ObterTodosEnderecosAsync();
+
+        _logger.LogInformation("Retornando lista de endereços");
+
         return Result.Success(new ObterTodosEnderecosResponse()
         {
             Enderecos = enderecos.Select(endereco => new ObterEnderecoResponse()

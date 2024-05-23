@@ -23,12 +23,14 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             var pessoa = await _pessoaRepository.ObterPessoaAsync(request.PessoaId);
             if (pessoa is null)
             {
+                _logger.LogError("Pessoa não encontrada");
                 return Result.Error<ObterTelefonesPessoaResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
             }
 
             var telefones = await _pessoaRepository.ObterTelefonesPessoaAsync(request.PessoaId);
             if (telefones is null)
             {
+                _logger.LogError("Nenhum Telefone encontrado");
                 return Result.Error<ObterTelefonesPessoaResponse>(new Compartilhado.Exceptions.SemResultadosExcecao());
             }
 
@@ -36,6 +38,8 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             {
                 Telefones = telefones.Select(t => new ObterTelefoneResponse { Numero = t.Numero }).ToList()
             };
+
+            _logger.LogInformation("Retornando Telefones encontrados");
 
             return Result.Success(response);
         }

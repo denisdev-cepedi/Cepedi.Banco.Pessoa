@@ -20,6 +20,9 @@ public class ObterTodosTelefonesRequestHandler : IRequestHandler<ObterTodosTelef
     public async Task<Result<ObterTodosTelefonesResponse>> Handle(ObterTodosTelefonesRequest request, CancellationToken cancellationToken)
     {
         var telefones = await _telefoneRepository.ObterTodosTelefonesAsync();
+
+        _logger.LogInformation("Retornando lista de telefones");
+
         return Result.Success(new ObterTodosTelefonesResponse()
         {
             Telefones = telefones.Select(telefone => new ObterTelefoneResponse()

@@ -30,6 +30,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
             if (pessoaExistente is not null)
             {
+                _logger.LogError("Cpf ja existe");
                 return Result.Error<CadastrarPessoaResponse>(new Compartilhado.Exceptions.CpfJaExisteExcecao());
             }
 
@@ -46,6 +47,8 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
             await _pessoaRepository.CadastrarPessoaAsync(pessoa);
             await _unitOfWork.SaveChangesAsync();
+
+            _logger.LogInformation("Pessoa cadastrada");
 
             return Result.Success(new CadastrarPessoaResponse()
             {
