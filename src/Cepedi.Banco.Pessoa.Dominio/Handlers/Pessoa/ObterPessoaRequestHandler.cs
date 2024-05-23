@@ -23,6 +23,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             var pessoa = await _pessoaRepository.ObterPessoaAsync(request.PessoaId);
             if (pessoa is null)
             {
+                _logger.LogError("Pessoa não encontrada.");
                 return Result.Error<ObterPessoaResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
             }
 
@@ -37,6 +38,8 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                 EstadoCivil = pessoa.EstadoCivil,
                 Nacionalidade = pessoa.Nacionalidade
             };
+
+            _logger.LogInformation("Retornando Pessoa encontrada.");
 
             return Result.Success(pessoaResponse);
         }

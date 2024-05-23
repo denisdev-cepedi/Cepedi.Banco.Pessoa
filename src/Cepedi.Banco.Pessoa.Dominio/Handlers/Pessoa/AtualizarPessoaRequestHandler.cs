@@ -26,6 +26,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
             if (pessoa is null)
             {
+                _logger.LogError("Pessoa não encontrada");
                 return Result.Error<AtualizarPessoaResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
             }
 
@@ -33,12 +34,15 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
             if (pessoaExistente is not null)
             {
+                _logger.LogError("Cpf ja existe");
                 return Result.Error<AtualizarPessoaResponse>(new Compartilhado.Exceptions.CpfJaExisteExcecao());
             }
 
             pessoa.Atualizar(request);
             var pessoaAtualizada = await _pessoaRepository.AtualizarPessoaAsync(pessoa);
             await _unitOfWork.SaveChangesAsync();
+
+            _logger.LogInformation("Pessoa atualizada");
 
             var response = new AtualizarPessoaResponse
             {

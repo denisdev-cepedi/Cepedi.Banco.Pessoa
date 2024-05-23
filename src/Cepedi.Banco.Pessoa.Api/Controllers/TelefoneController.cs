@@ -24,6 +24,7 @@ public class TelefoneController : BaseController
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ObterTodosTelefonesResponse>> ObterTodosTelefones()
     {
+        _logger.LogInformation("Obtendo todos os telefones");
         return await SendCommand(new ObterTodosTelefonesRequest());
     }
 
@@ -33,6 +34,7 @@ public class TelefoneController : BaseController
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
     public async Task<ActionResult<ObterTelefoneResponse>> ObterTelefone([FromRoute] int id)
     {
+        _logger.LogInformation($"Obtendo o telefone {id}");
         return await SendCommand(new ObterTelefoneRequest() { TelefoneId = id });
     }
 
@@ -41,6 +43,7 @@ public class TelefoneController : BaseController
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CadastrarTelefoneResponse>> CadastrarTelefone([FromBody] CadastrarTelefoneRequest request)
     {
+        _logger.LogInformation("Cadastrando novo telefone");
         return await SendCommand(request);
     }
 
@@ -50,6 +53,7 @@ public class TelefoneController : BaseController
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
     public async Task<ActionResult<AtualizarTelefoneResponse>> AtualizarTelefone([FromBody] AtualizarTelefoneRequest request)
     {
+        _logger.LogInformation($"Atualizando o telefone {request.Id}");
         return await SendCommand(request);
     }
 
@@ -58,6 +62,7 @@ public class TelefoneController : BaseController
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
     public async Task<ActionResult<ExcluirTelefoneResponse>> ExcluirTelefone([FromRoute] int id)
     {
+        _logger.LogInformation($"Excluindo o telefone {id}");
         var request = new ExcluirTelefoneRequest() { TelefoneId = id };
         return await SendCommand(request);
     }

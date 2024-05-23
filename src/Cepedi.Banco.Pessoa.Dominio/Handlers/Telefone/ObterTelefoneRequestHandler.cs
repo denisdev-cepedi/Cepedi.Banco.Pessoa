@@ -22,8 +22,11 @@ public class ObterTelefoneRequestHandler : IRequestHandler<ObterTelefoneRequest,
 
         if (telefone is null)
         {
+            _logger.LogError("Telefone não encontrado");
             return Result.Error<ObterTelefoneResponse>(new Compartilhado.Exceptions.TelefoneNaoEncontradoExcecao());
         }
+
+        _logger.LogInformation("Retornando Telefone encontrado");
 
         return Result.Success(new ObterTelefoneResponse()
         {

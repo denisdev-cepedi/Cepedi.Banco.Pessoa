@@ -27,6 +27,7 @@ public class ExcluirTelefoneRequestHandler : IRequestHandler<ExcluirTelefoneRequ
 
         if (telefone is null)
         {
+            _logger.LogError("Telefone não encontrado");
             return Result.Error<ExcluirTelefoneResponse>(new Compartilhado.Exceptions.TelefoneNaoEncontradoExcecao());
         }
 
@@ -34,11 +35,14 @@ public class ExcluirTelefoneRequestHandler : IRequestHandler<ExcluirTelefoneRequ
 
         if (telefonePrincipal is not null && request.TelefoneId == telefonePrincipal.Id)
         {
+            _logger.LogError("A pessoa deve ter pelo menos um Telefone principal");
             return Result.Error<ExcluirTelefoneResponse>(new Compartilhado.Exceptions.ExclusaoTelefonePrincipalException());
         }
 
         await _telefoneRepository.ExcluirTelefoneAsync(telefone);
         await _unitOfWork.SaveChangesAsync();
+
+        _logger.LogInformation("Telefone excluido");
 
         return Result.Success(new ExcluirTelefoneResponse());
     }
