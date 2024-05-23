@@ -3,11 +3,13 @@ using Cepedi.Banco.Pessoa.Compartilhado.Responses;
 using MediatR;
 using Cepedi.Compartilhado.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cepedi.Banco.Pessoa.Api.Controllers
 {
     [ApiController]
     [Route("[controller]/v1/Pessoas")]
+    [Authorize]
     public class PessoaController : BaseController
     {
         private readonly ILogger<PessoaController> _logger;
