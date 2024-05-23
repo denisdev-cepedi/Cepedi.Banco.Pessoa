@@ -12,6 +12,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Repository
         Task<PessoaEntity> CadastrarPessoaAsync(PessoaEntity pessoa);
         Task<PessoaEntity> AtualizarPessoaAsync(PessoaEntity pessoa);
         Task<PessoaEntity> ExcluirPessoaAsync(PessoaEntity pessoa);
-
+        Task<EnderecoEntity> ObterEnderecoPrincipalAsync(int id);
+        Task<TelefoneEntity> ObterTelefonePrincipalAsync(int id);
     }
 }

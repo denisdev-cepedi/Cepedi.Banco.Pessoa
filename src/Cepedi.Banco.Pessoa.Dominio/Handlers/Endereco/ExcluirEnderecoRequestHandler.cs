@@ -10,10 +10,12 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers;
 public class ExcluirEnderecoRequestHandler : IRequestHandler<ExcluirEnderecoRequest, Result<ExcluirEnderecoResponse>>
 {
     private readonly IEnderecoRepository _enderecoRepository;
+    private readonly IPessoaRepository _pessoaRepository;
     private readonly ILogger<ExcluirEnderecoRequestHandler> _logger;
-    public ExcluirEnderecoRequestHandler(IEnderecoRepository enderecoRepository, ILogger<ExcluirEnderecoRequestHandler> logger)
+    public ExcluirEnderecoRequestHandler(IEnderecoRepository enderecoRepository, IPessoaRepository pessoaRepository, ILogger<ExcluirEnderecoRequestHandler> logger)
     {
         _enderecoRepository = enderecoRepository;
+        _pessoaRepository = pessoaRepository;
         _logger = logger;
     }
 
@@ -26,7 +28,7 @@ public class ExcluirEnderecoRequestHandler : IRequestHandler<ExcluirEnderecoRequ
             return Result.Error<ExcluirEnderecoResponse>(new Compartilhado.Exceptions.EnderecoNaoEncontradoExcecao());
         }
 
-        var enderecoPrincipal = await _enderecoRepository.ObterEnderecoPrincipalAsync(endereco.IdPessoa);
+        var enderecoPrincipal = await _pessoaRepository.ObterEnderecoPrincipalAsync(endereco.IdPessoa);
 
         if (enderecoPrincipal is not null && request.EnderecoId == enderecoPrincipal.Id)
         {

@@ -85,4 +85,16 @@ public class PessoaRepository : IPessoaRepository
            .FirstOrDefaultAsync(p => p.Cpf == cpf);
         return pessoa;
     }
+
+    public async Task<TelefoneEntity> ObterTelefonePrincipalAsync(int id)
+    {
+        var telefone = await _context.Telefone.FirstOrDefaultAsync(t => t.Principal && t.IdPessoa == id);
+        return telefone;
+    }
+
+    public async Task<EnderecoEntity> ObterEnderecoPrincipalAsync(int id)
+    {
+        var endereco = await _context.Endereco.FirstOrDefaultAsync(e => e.Principal && e.IdPessoa == id);
+        return endereco;
+    }
 }

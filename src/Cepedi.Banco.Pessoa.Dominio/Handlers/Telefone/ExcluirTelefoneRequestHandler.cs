@@ -10,10 +10,12 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers;
 public class ExcluirTelefoneRequestHandler : IRequestHandler<ExcluirTelefoneRequest, Result<ExcluirTelefoneResponse>>
 {
     private readonly ITelefoneRepository _telefoneRepository;
+    private readonly IPessoaRepository _pessoaRepository;
     private readonly ILogger<ExcluirTelefoneRequestHandler> _logger;
-    public ExcluirTelefoneRequestHandler(ITelefoneRepository telefoneRepository, ILogger<ExcluirTelefoneRequestHandler> logger)
+    public ExcluirTelefoneRequestHandler(ITelefoneRepository telefoneRepository, IPessoaRepository pessoaRepository, ILogger<ExcluirTelefoneRequestHandler> logger)
     {
         _telefoneRepository = telefoneRepository;
+        _pessoaRepository = pessoaRepository;
         _logger = logger;
     }
 
@@ -26,7 +28,7 @@ public class ExcluirTelefoneRequestHandler : IRequestHandler<ExcluirTelefoneRequ
             return Result.Error<ExcluirTelefoneResponse>(new Compartilhado.Exceptions.TelefoneNaoEncontradoExcecao());
         }
 
-        var telefonePrincipal = await _telefoneRepository.ObterTelefonePrincipalAsync(telefone.IdPessoa);
+        var telefonePrincipal = await _pessoaRepository.ObterTelefonePrincipalAsync(telefone.IdPessoa);
 
         if (telefonePrincipal is not null && request.TelefoneId == telefonePrincipal.Id)
         {

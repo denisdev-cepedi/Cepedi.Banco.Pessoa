@@ -10,5 +10,4 @@ public interface IEnderecoRepository
     Task<EnderecoEntity> CadastrarEnderecoAsync(EnderecoEntity endereco);
     Task<EnderecoEntity> AtualizarEnderecoAsync(EnderecoEntity endereco);
     Task<EnderecoEntity> ExcluirEnderecoAsync(EnderecoEntity endereco);
-    Task<EnderecoEntity> ObterEnderecoPrincipalAsync(int id);
 }
