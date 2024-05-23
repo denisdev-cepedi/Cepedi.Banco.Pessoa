@@ -23,7 +23,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
         [ProducesResponseType(typeof(ObterTodasPessoasResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<ObterTodasPessoasResponse>> ObterTodasPessoas()
+        public async Task<ActionResult<ObterTodasPessoasResponse>> ObterTodasPessoasAsync()
         {
             _logger.LogInformation("Obtendo todas as pessoas");
             return await SendCommand(new ObterTodasPessoasRequest());
@@ -33,7 +33,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
         [ProducesResponseType(typeof(ObterPessoaResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<ObterPessoaResponse>> ObterPessoa([FromRoute] int id)
+        public async Task<ActionResult<ObterPessoaResponse>> ObterPessoaAsync([FromRoute] int id)
         {
             _logger.LogInformation($"Obtendo a pessoa {id}");
             return await SendCommand(new ObterPessoaRequest() { PessoaId = id });
@@ -43,7 +43,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
         [ProducesResponseType(typeof(ObterPessoaResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<ObterPessoaResponse>> ObterPessoaPorCpf([FromRoute] string cpf)
+        public async Task<ActionResult<ObterPessoaResponse>> ObterPessoaPorCpfAsync([FromRoute] string cpf)
         {
             _logger.LogInformation($"Obtendo a pessoa por cpf: {cpf}");
             return await SendCommand(new ObterPessoaPorCpfRequest() { Cpf = cpf });
@@ -52,7 +52,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(CadastrarPessoaResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CadastrarPessoaResponse>> CadastrarPessoa([FromBody] CadastrarPessoaRequest request)
+        public async Task<ActionResult<CadastrarPessoaResponse>> CadastrarPessoaAsync([FromBody] CadastrarPessoaRequest request)
         {
             _logger.LogInformation("Cadastrando nova pessoa");
             return await SendCommand(request);
@@ -62,7 +62,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
         [ProducesResponseType(typeof(AtualizarPessoaResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<AtualizarPessoaResponse>> AtualizarPessoa([FromBody] AtualizarPessoaRequest request)
+        public async Task<ActionResult<AtualizarPessoaResponse>> AtualizarPessoaAsync([FromBody] AtualizarPessoaRequest request)
         {
             _logger.LogInformation($"Atualizando a pessoa {request.Id}");
             return await SendCommand(request);
@@ -71,7 +71,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers
         [HttpDelete]
         [ProducesResponseType(typeof(ExcluirPessoaResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<ExcluirPessoaResponse>> ExcluirPessoa([FromBody] ExcluirPessoaRequest request)
+        public async Task<ActionResult<ExcluirPessoaResponse>> ExcluirPessoaAsync([FromBody] ExcluirPessoaRequest request)
         {
             _logger.LogInformation($"Excluindo a pessoa {request.PessoaId}");
             return await SendCommand(request);
