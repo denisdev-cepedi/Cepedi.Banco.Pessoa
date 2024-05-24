@@ -11,5 +11,6 @@ public class CadastrarTelefoneRequest : IRequest<Result<CadastrarTelefoneRespons
     public string Numero { get; set; } = default!;
     public string Tipo { get; set; } = default!;
     public int IdPessoa { get; set; }
+    public bool Principal { get; set; } 
 
 }

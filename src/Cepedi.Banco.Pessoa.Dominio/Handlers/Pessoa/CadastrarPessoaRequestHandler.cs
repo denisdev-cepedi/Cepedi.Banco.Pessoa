@@ -5,7 +5,6 @@ using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,12 +13,21 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
     public class CadastrarPessoaRequestHandler : IRequestHandler<CadastrarPessoaRequest, Result<CadastrarPessoaResponse>>
     {
         private readonly IPessoaRepository _pessoaRepository;
+        private readonly ITelefoneRepository _telefoneRepository;
+        private readonly IEnderecoRepository _enderecoRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<CadastrarPessoaRequestHandler> _logger;
 
-        public CadastrarPessoaRequestHandler(IPessoaRepository pessoaRepository, IUnitOfWork unitOfWork, ILogger<CadastrarPessoaRequestHandler> logger)
+        public CadastrarPessoaRequestHandler(
+            IPessoaRepository pessoaRepository,
+            ITelefoneRepository telefoneRepository,
+            IEnderecoRepository enderecoRepository,
+            IUnitOfWork unitOfWork,
+            ILogger<CadastrarPessoaRequestHandler> logger)
         {
             _pessoaRepository = pessoaRepository;
+            _telefoneRepository = telefoneRepository;
+            _enderecoRepository = enderecoRepository;
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
@@ -30,7 +38,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
             if (pessoaExistente is not null)
             {
-                _logger.LogError("Cpf ja existe");
+                _logger.LogError("Cpf já existe");
                 return Result.Error<CadastrarPessoaResponse>(new Compartilhado.Exceptions.CpfJaExisteExcecao());
             }
 
@@ -46,11 +54,44 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             };
 
             await _pessoaRepository.CadastrarPessoaAsync(pessoa);
+
+            foreach (var telefoneRequest in request.Telefones)
+            {
+                var telefone = new TelefoneEntity
+                {
+                    CodPais = telefoneRequest.CodPais,
+                    Ddd = telefoneRequest.Ddd,
+                    Numero = telefoneRequest.Numero,
+                    Tipo = telefoneRequest.Tipo,
+                    Principal = telefoneRequest.Principal,
+                    Pessoa = pessoa
+                };
+                await _telefoneRepository.CadastrarTelefoneAsync(telefone);
+            }
+
+            foreach (var enderecoRequest in request.Enderecos)
+            {
+                var endereco = new EnderecoEntity
+                {
+                    Cep = enderecoRequest.Cep,
+                    Logradouro = enderecoRequest.Logradouro,
+                    Complemento = enderecoRequest.Complemento,
+                    Bairro = enderecoRequest.Bairro,
+                    Cidade = enderecoRequest.Cidade,
+                    Uf = enderecoRequest.Uf,
+                    Pais = enderecoRequest.Pais,
+                    Numero = enderecoRequest.Numero,
+                    Principal = enderecoRequest.Principal,
+                    Pessoa = pessoa
+                };
+                await _enderecoRepository.CadastrarEnderecoAsync(endereco);
+            }
+
             await _unitOfWork.SaveChangesAsync();
 
-            _logger.LogInformation("Pessoa cadastrada");
+            _logger.LogInformation("Pessoa cadastrada com telefone(s) e endereço(s)");
 
-            return Result.Success(new CadastrarPessoaResponse()
+            return Result.Success(new CadastrarPessoaResponse
             {
                 Id = pessoa.Id,
                 Nome = pessoa.Nome,
@@ -61,7 +102,6 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                 EstadoCivil = pessoa.EstadoCivil,
                 Nacionalidade = pessoa.Nacionalidade
             });
-
         }
     }
 }
