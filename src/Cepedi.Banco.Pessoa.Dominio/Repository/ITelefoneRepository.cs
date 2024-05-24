@@ -9,4 +9,5 @@ public interface ITelefoneRepository
     Task<TelefoneEntity> CadastrarTelefoneAsync(TelefoneEntity telefone);
     Task<TelefoneEntity> AtualizarTelefoneAsync(TelefoneEntity telefone);
     Task<TelefoneEntity> ExcluirTelefoneAsync(TelefoneEntity telefone);
+    Task<TelefoneEntity> ObterTelefonePrincipalAsync(int pessoaId);
 }
