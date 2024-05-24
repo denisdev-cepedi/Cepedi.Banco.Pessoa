@@ -28,6 +28,9 @@ public class ObterPessoaRequestHandlerTests
         //Arrange 
         var request = new ObterPessoaRequest { PessoaId = 1 };
 
+        _pessoaRepository.ObterTelefonePrincipalAsync(It.IsAny<int>()).ReturnsForAnyArgs(new TelefoneEntity());
+        _pessoaRepository.ObterEnderecoPrincipalAsync(It.IsAny<int>()).ReturnsForAnyArgs(new EnderecoEntity());
+
         var pessoaEntity = new PessoaEntity
         {
             Id = 1,
