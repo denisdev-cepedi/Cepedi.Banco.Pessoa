@@ -73,8 +73,8 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                 CodPais = telefone.CodPais,
                 Ddd = telefone.Ddd,
                 Numero = telefone.Numero,
-                Tipo = telefone.Tipo,
-                Principal = telefone.Principal
+                Tipo = telefone.Tipo
+                
             };
         }
 
@@ -90,8 +90,8 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                 Cidade = endereco.Cidade,
                 Uf = endereco.Uf,
                 Pais = endereco.Pais,
-                Numero = endereco.Numero,
-                Principal = endereco.Principal
+                Numero = endereco.Numero
+                
             };
         }
     }
