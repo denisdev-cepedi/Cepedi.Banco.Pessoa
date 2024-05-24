@@ -1,4 +1,5 @@
 ﻿using Cepedi.Banco.Pessoa.Compartilhado.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Cepedi.Banco.Pessoa.Compartilhado.Responses;
 using Cepedi.Compartilhado.Exceptions;
 using MediatR;
@@ -8,6 +9,7 @@ namespace Cepedi.Banco.Pessoa.Api.Controllers;
 
 [ApiController]
 [Route("[controller]/v1/Enderecos")]
+[Authorize]
 public class EnderecoController : BaseController
 {
     private readonly ILogger<EnderecoController> _logger;
