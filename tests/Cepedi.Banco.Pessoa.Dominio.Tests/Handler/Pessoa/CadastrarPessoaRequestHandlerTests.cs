@@ -58,7 +58,8 @@ public class CadastrarPessoaRequestHandlerTests
                 Pais = "Brasil"
             }
         };
-
+        _enderecoRepository.CadastrarEnderecoAsync(It.IsAny<EnderecoEntity>()).ReturnsForAnyArgs(new EnderecoEntity());
+        _telefoneRepository.CadastrarTelefoneAsync(It.IsAny<TelefoneEntity>()).ReturnsForAnyArgs(new TelefoneEntity());
         _pessoaRepository.ObterPessoaPorCpfAsync(request.Cpf).ReturnsNull();
         _pessoaRepository.CadastrarPessoaAsync(It.IsAny<PessoaEntity>()).ReturnsForAnyArgs(new PessoaEntity());
         _uinityOfWork.SaveChangesAsync().ReturnsForAnyArgs(true);
