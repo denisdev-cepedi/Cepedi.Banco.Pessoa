@@ -36,7 +36,15 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
             var response = new ObterTelefonesPessoaResponse
             {
-                Telefones = telefones.Select(t => new ObterTelefoneResponse { Numero = t.Numero }).ToList()
+                Telefones = telefones.Select(t => new ObterTelefoneResponse
+                {
+                    Id = t.Id,
+                    CodPais = t.CodPais,
+                    Ddd = t.Ddd,
+                    Numero = t.Numero,
+                    Tipo = t.Tipo,
+                    Principal = t.Principal
+                }).ToList()
             };
 
             _logger.LogInformation("Retornando Telefones encontrados");
