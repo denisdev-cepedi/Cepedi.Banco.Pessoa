@@ -16,7 +16,8 @@ namespace Cepedi.Banco.Pessoa.Compartilhado.Requests
         public string EstadoCivil { get; set; } = default!;
         public string Nacionalidade { get; set; } = default!;
 
-        public List<CadastrarTelefonePessoaRequest> Telefones { get; set; } = new List<CadastrarTelefonePessoaRequest>();
-        public List<CadastrarEnderecoPessoaRequest> Enderecos { get; set; } = new List<CadastrarEnderecoPessoaRequest>();
+        public CadastrarTelefonePessoaRequest Telefone { get; set; }
+        public CadastrarEnderecoPessoaRequest Endereco { get; set; }
+
     }
 }

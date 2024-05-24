@@ -5,103 +5,92 @@ using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Cepedi.Banco.Pessoa.Dominio.Handlers
+public class CadastrarPessoaRequestHandler : IRequestHandler<CadastrarPessoaRequest, Result<CadastrarPessoaResponse>>
 {
-    public class CadastrarPessoaRequestHandler : IRequestHandler<CadastrarPessoaRequest, Result<CadastrarPessoaResponse>>
+    private readonly IPessoaRepository _pessoaRepository;
+    private readonly ITelefoneRepository _telefoneRepository;
+    private readonly IEnderecoRepository _enderecoRepository;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly ILogger<CadastrarPessoaRequestHandler> _logger;
+
+    public CadastrarPessoaRequestHandler(
+        IPessoaRepository pessoaRepository,
+        ITelefoneRepository telefoneRepository,
+        IEnderecoRepository enderecoRepository,
+        IUnitOfWork unitOfWork,
+        ILogger<CadastrarPessoaRequestHandler> logger)
     {
-        private readonly IPessoaRepository _pessoaRepository;
-        private readonly ITelefoneRepository _telefoneRepository;
-        private readonly IEnderecoRepository _enderecoRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger<CadastrarPessoaRequestHandler> _logger;
+        _pessoaRepository = pessoaRepository;
+        _telefoneRepository = telefoneRepository;
+        _enderecoRepository = enderecoRepository;
+        _unitOfWork = unitOfWork;
+        _logger = logger;
+    }
 
-        public CadastrarPessoaRequestHandler(
-            IPessoaRepository pessoaRepository,
-            ITelefoneRepository telefoneRepository,
-            IEnderecoRepository enderecoRepository,
-            IUnitOfWork unitOfWork,
-            ILogger<CadastrarPessoaRequestHandler> logger)
+    public async Task<Result<CadastrarPessoaResponse>> Handle(CadastrarPessoaRequest request, CancellationToken cancellationToken)
+    {
+        var pessoaExistente = await _pessoaRepository.ObterPessoaPorCpfAsync(request.Cpf);
+
+        if (pessoaExistente is not null)
         {
-            _pessoaRepository = pessoaRepository;
-            _telefoneRepository = telefoneRepository;
-            _enderecoRepository = enderecoRepository;
-            _unitOfWork = unitOfWork;
-            _logger = logger;
+            _logger.LogError("Cpf já existe");
+           return Result.Error<CadastrarPessoaResponse>(new Cepedi.Banco.Pessoa.Compartilhado.Exceptions.CpfJaExisteExcecao());
         }
 
-        public async Task<Result<CadastrarPessoaResponse>> Handle(CadastrarPessoaRequest request, CancellationToken cancellationToken)
+        var pessoa = new PessoaEntity
         {
-            var pessoaExistente = await _pessoaRepository.ObterPessoaPorCpfAsync(request.Cpf);
+            Nome = request.Nome,
+            Email = request.Email,
+            DataNascimento = request.DataNascimento,
+            Cpf = request.Cpf,
+            Genero = request.Genero,
+            EstadoCivil = request.EstadoCivil,
+            Nacionalidade = request.Nacionalidade
+        };
 
-            if (pessoaExistente is not null)
-            {
-                _logger.LogError("Cpf já existe");
-                return Result.Error<CadastrarPessoaResponse>(new Compartilhado.Exceptions.CpfJaExisteExcecao());
-            }
+        await _pessoaRepository.CadastrarPessoaAsync(pessoa);
 
-            var pessoa = new PessoaEntity
-            {
-                Nome = request.Nome,
-                Email = request.Email,
-                DataNascimento = request.DataNascimento,
-                Cpf = request.Cpf,
-                Genero = request.Genero,
-                EstadoCivil = request.EstadoCivil,
-                Nacionalidade = request.Nacionalidade
-            };
+        var telefone = new TelefoneEntity
+        {
+            CodPais = request.Telefone.CodPais,
+            Ddd = request.Telefone.Ddd,
+            Numero = request.Telefone.Numero,
+            Tipo = request.Telefone.Tipo,
+            Principal = true,
+            Pessoa = pessoa
+        };
+        await _telefoneRepository.CadastrarTelefoneAsync(telefone);
 
-            await _pessoaRepository.CadastrarPessoaAsync(pessoa);
+        var endereco = new EnderecoEntity
+        {
+            Cep = request.Endereco.Cep,
+            Logradouro = request.Endereco.Logradouro,
+            Complemento = request.Endereco.Complemento,
+            Bairro = request.Endereco.Bairro,
+            Cidade = request.Endereco.Cidade,
+            Uf = request.Endereco.Uf,
+            Pais = request.Endereco.Pais,
+            Numero = request.Endereco.Numero,
+            Principal = true,
+            Pessoa = pessoa
+        };
+        await _enderecoRepository.CadastrarEnderecoAsync(endereco);
 
-            foreach (var telefoneRequest in request.Telefones)
-            {
-                var telefone = new TelefoneEntity
-                {
-                    CodPais = telefoneRequest.CodPais,
-                    Ddd = telefoneRequest.Ddd,
-                    Numero = telefoneRequest.Numero,
-                    Tipo = telefoneRequest.Tipo,
-                    Principal = true,
-                    Pessoa = pessoa
-                };
-                await _telefoneRepository.CadastrarTelefoneAsync(telefone);
-            }
+        await _unitOfWork.SaveChangesAsync();
 
-            foreach (var enderecoRequest in request.Enderecos)
-            {
-                var endereco = new EnderecoEntity
-                {
-                    Cep = enderecoRequest.Cep,
-                    Logradouro = enderecoRequest.Logradouro,
-                    Complemento = enderecoRequest.Complemento,
-                    Bairro = enderecoRequest.Bairro,
-                    Cidade = enderecoRequest.Cidade,
-                    Uf = enderecoRequest.Uf,
-                    Pais = enderecoRequest.Pais,
-                    Numero = enderecoRequest.Numero,
-                    Principal = true,
-                    Pessoa = pessoa
-                };
-                await _enderecoRepository.CadastrarEnderecoAsync(endereco);
-            }
+        _logger.LogInformation("Pessoa cadastrada com telefone e endereço");
 
-            await _unitOfWork.SaveChangesAsync();
-
-            _logger.LogInformation("Pessoa cadastrada com telefone(s) e endereço(s)");
-
-            return Result.Success(new CadastrarPessoaResponse
-            {
-                Id = pessoa.Id,
-                Nome = pessoa.Nome,
-                Email = pessoa.Email,
-                DataNascimento = pessoa.DataNascimento,
-                Cpf = pessoa.Cpf,
-                Genero = pessoa.Genero,
-                EstadoCivil = pessoa.EstadoCivil,
-                Nacionalidade = pessoa.Nacionalidade
-            });
-        }
+        return Result.Success(new CadastrarPessoaResponse
+        {
+            Id = pessoa.Id,
+            Nome = pessoa.Nome,
+            Email = pessoa.Email,
+            DataNascimento = pessoa.DataNascimento,
+            Cpf = pessoa.Cpf,
+            Genero = pessoa.Genero,
+            EstadoCivil = pessoa.EstadoCivil,
+            Nacionalidade = pessoa.Nacionalidade
+        });
     }
 }
