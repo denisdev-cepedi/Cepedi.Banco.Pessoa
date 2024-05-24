@@ -10,6 +10,6 @@ public class CadastrarTelefonePessoaRequest : IRequest<Result<CadastrarTelefoneR
     public string Ddd { get; set; } = default!;
     public string Numero { get; set; } = default!;
     public string Tipo { get; set; } = default!;
-    public bool Principal { get; set; } 
+    
 
 }

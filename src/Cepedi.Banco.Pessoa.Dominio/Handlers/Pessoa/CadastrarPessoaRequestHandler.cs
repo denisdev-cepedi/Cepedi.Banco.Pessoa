@@ -63,7 +63,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                     Ddd = telefoneRequest.Ddd,
                     Numero = telefoneRequest.Numero,
                     Tipo = telefoneRequest.Tipo,
-                    Principal = telefoneRequest.Principal,
+                    Principal = true,
                     Pessoa = pessoa
                 };
                 await _telefoneRepository.CadastrarTelefoneAsync(telefone);
@@ -81,7 +81,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                     Uf = enderecoRequest.Uf,
                     Pais = enderecoRequest.Pais,
                     Numero = enderecoRequest.Numero,
-                    Principal = enderecoRequest.Principal,
+                    Principal = true,
                     Pessoa = pessoa
                 };
                 await _enderecoRepository.CadastrarEnderecoAsync(endereco);
