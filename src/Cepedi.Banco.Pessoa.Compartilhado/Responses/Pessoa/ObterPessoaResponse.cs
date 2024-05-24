@@ -11,7 +11,7 @@ namespace Cepedi.Banco.Pessoa.Compartilhado.Responses
         public string EstadoCivil { get; set; } = default!;
         public string Nacionalidade { get; set; } = default!;
 
-        public CadastrarTelefoneResponse? TelefonePrincipal { get; set; }
-        public CadastrarEnderecoResponse? EnderecoPrincipal { get; set; }
+        public ObterTelefoneResponse? TelefonePrincipal { get; set; }
+        public ObterEnderecoResponse? EnderecoPrincipal { get; set; }
     }
 }

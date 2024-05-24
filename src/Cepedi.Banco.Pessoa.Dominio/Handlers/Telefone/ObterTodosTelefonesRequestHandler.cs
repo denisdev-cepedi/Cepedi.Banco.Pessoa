@@ -32,6 +32,7 @@ public class ObterTodosTelefonesRequestHandler : IRequestHandler<ObterTodosTelef
                 Ddd = telefone.Ddd,
                 Numero = telefone.Numero,
                 Principal = telefone.Principal,
+                IdPessoa = telefone.IdPessoa,
                 Tipo = telefone.Tipo
             }).ToList()
         });

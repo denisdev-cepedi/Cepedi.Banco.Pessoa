@@ -61,24 +61,24 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             return Result.Success(pessoaResponse);
         }
 
-        private CadastrarTelefoneResponse MapToCadastrarTelefoneResponse(TelefoneEntity telefone)
+        private ObterTelefoneResponse MapToCadastrarTelefoneResponse(TelefoneEntity telefone)
         {
             
-            return new CadastrarTelefoneResponse
-            {
+            return new ObterTelefoneResponse
+            {   Id = telefone.Id,
                 CodPais = telefone.CodPais,
                 Ddd = telefone.Ddd,
                 Numero = telefone.Numero,
-                Tipo = telefone.Tipo
-                
+                Tipo = telefone.Tipo,
+                IdPessoa = telefone.IdPessoa
             };
         }
 
-        private CadastrarEnderecoResponse MapToCadastrarEnderecoResponse(EnderecoEntity endereco)
+        private ObterEnderecoResponse MapToCadastrarEnderecoResponse(EnderecoEntity endereco)
         {
             
-            return new CadastrarEnderecoResponse
-            {
+            return new ObterEnderecoResponse
+            {   Id = endereco.Id,
                 Cep = endereco.Cep,
                 Logradouro = endereco.Logradouro,
                 Complemento = endereco.Complemento,
@@ -86,7 +86,8 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                 Cidade = endereco.Cidade,
                 Uf = endereco.Uf,
                 Pais = endereco.Pais,
-                Numero = endereco.Numero
+                Numero = endereco.Numero,
+                IdPessoa = endereco.IdPessoa
                 
             };
         }

@@ -43,7 +43,9 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                     Ddd = t.Ddd,
                     Numero = t.Numero,
                     Tipo = t.Tipo,
-                    Principal = t.Principal
+                    Principal = t.Principal,
+                    IdPessoa = t.IdPessoa
+
                 }).ToList()
             };
 

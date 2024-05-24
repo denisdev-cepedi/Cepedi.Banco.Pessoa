@@ -36,6 +36,7 @@ public class ObterTodosEnderecosRequestHandler : IRequestHandler<ObterTodosEnder
                 Uf = endereco.Uf,
                 Pais = endereco.Pais,
                 Numero = endereco.Numero,
+                IdPessoa = endereco.IdPessoa,
                 Principal = endereco.Principal
             }).ToList()
         });

@@ -44,6 +44,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                 Cidade = e.Cidade,
                 Uf = e.Uf,
                 Pais = e.Pais,
+                IdPessoa = e.IdPessoa,
                 Numero = e.Numero
             }).ToList();
 

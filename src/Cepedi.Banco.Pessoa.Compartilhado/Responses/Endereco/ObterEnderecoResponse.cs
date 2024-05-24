@@ -12,4 +12,5 @@ public class ObterEnderecoResponse
     public string Pais { get; set; } = default!;
     public string Numero { get; set; } = default!;
     public bool Principal { get; set; } = default!;
+    public int IdPessoa { get; set; }
 }

@@ -48,7 +48,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                     Genero = pessoa.Genero,
                     EstadoCivil = pessoa.EstadoCivil,
                     Nacionalidade = pessoa.Nacionalidade,
-                    EnderecoPrincipal = enderecoPrincipal != null ? new CadastrarEnderecoResponse
+                    EnderecoPrincipal = enderecoPrincipal != null ? new ObterEnderecoResponse
                     {
                         Id = enderecoPrincipal.Id,
                         Cep = enderecoPrincipal.Cep,
@@ -62,7 +62,7 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                         Principal = enderecoPrincipal.Principal,
                         IdPessoa = enderecoPrincipal.IdPessoa
                     } : null,
-                    TelefonePrincipal = telefonePrincipal != null ? new CadastrarTelefoneResponse
+                    TelefonePrincipal = telefonePrincipal != null ? new ObterTelefoneResponse
                     {
                         Id = telefonePrincipal.Id,
                         CodPais = telefonePrincipal.CodPais,
