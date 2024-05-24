@@ -13,19 +13,15 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
     public class ObterPessoaRequestHandler : IRequestHandler<ObterPessoaRequest, Result<ObterPessoaResponse>>
     {
         private readonly IPessoaRepository _pessoaRepository;
-        private readonly ITelefoneRepository _telefoneRepository;
-        private readonly IEnderecoRepository _enderecoRepository;
         private readonly ILogger<ObterPessoaRequestHandler> _logger;
 
         public ObterPessoaRequestHandler(
             IPessoaRepository pessoaRepository,
-            ITelefoneRepository telefoneRepository,
-            IEnderecoRepository enderecoRepository,
+           
             ILogger<ObterPessoaRequestHandler> logger)
         {
             _pessoaRepository = pessoaRepository;
-            _telefoneRepository = telefoneRepository;
-            _enderecoRepository = enderecoRepository;
+           
             _logger = logger;
         }
 
@@ -39,8 +35,8 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
             }
 
             
-            var telefonePrincipal = await _telefoneRepository.ObterTelefonePrincipalAsync(pessoa.Id);
-            var enderecoPrincipal = await _enderecoRepository.ObterEnderecoPrincipalAsync(pessoa.Id);
+            var telefonePrincipal = await _pessoaRepository.ObterTelefonePrincipalAsync(pessoa.Id);
+            var enderecoPrincipal = await _pessoaRepository.ObterEnderecoPrincipalAsync(pessoa.Id);
 
             
             var telefonePrincipalResponse = MapToCadastrarTelefoneResponse(telefonePrincipal);

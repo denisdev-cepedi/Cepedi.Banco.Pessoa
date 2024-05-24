@@ -10,19 +10,15 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
     public class ObterTodasPessoasRequestHandler : IRequestHandler<ObterTodasPessoasRequest, Result<ObterTodasPessoasResponse>>
     {
         private readonly IPessoaRepository _pessoaRepository;
-        private readonly IEnderecoRepository _enderecoRepository;
-        private readonly ITelefoneRepository _telefoneRepository;
+   
         private readonly ILogger<ObterTodasPessoasRequestHandler> _logger;
 
         public ObterTodasPessoasRequestHandler(
             IPessoaRepository pessoaRepository, 
-            IEnderecoRepository enderecoRepository, 
-            ITelefoneRepository telefoneRepository, 
+            
             ILogger<ObterTodasPessoasRequestHandler> logger)
         {
             _pessoaRepository = pessoaRepository;
-            _enderecoRepository = enderecoRepository;
-            _telefoneRepository = telefoneRepository;
             _logger = logger;
         }
 
@@ -39,8 +35,8 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
             foreach (var pessoa in pessoas)
             {
-                var enderecoPrincipal = await _enderecoRepository.ObterEnderecoPrincipalAsync(pessoa.Id);
-                var telefonePrincipal = await _telefoneRepository.ObterTelefonePrincipalAsync(pessoa.Id);
+                var enderecoPrincipal = await _pessoaRepository.ObterEnderecoPrincipalAsync(pessoa.Id);
+                var telefonePrincipal = await _pessoaRepository.ObterTelefonePrincipalAsync(pessoa.Id);
 
                 pessoaResponses.Add(new ObterPessoaResponse
                 {

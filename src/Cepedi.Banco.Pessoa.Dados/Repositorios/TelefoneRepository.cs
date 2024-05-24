@@ -45,10 +45,5 @@ public class TelefoneRepository : ITelefoneRepository
         var telefones = await _context.Telefone.ToListAsync();
         return telefones;
     }
-    public async Task<TelefoneEntity> ObterTelefonePrincipalAsync(int pessoaId)
-    {
-        return await _context.Telefone
-            .Where(t => t.IdPessoa == pessoaId && t.Principal)
-            .FirstOrDefaultAsync();
-    }
+    
 }

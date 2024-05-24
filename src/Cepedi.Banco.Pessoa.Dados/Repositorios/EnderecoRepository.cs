@@ -52,10 +52,4 @@ public class EnderecoRepository : IEnderecoRepository
         return enderecos;
     }
 
-    public async Task<EnderecoEntity> ObterEnderecoPrincipalAsync(int pessoaId)
-    {
-        return await _context.Endereco
-            .Where(e => e.IdPessoa == pessoaId && e.Principal)
-            .FirstOrDefaultAsync();
-    }
 }
