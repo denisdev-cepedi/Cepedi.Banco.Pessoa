@@ -1,6 +1,7 @@
-namespace Cepedi.Banco.Pessoa.Compartilhado.Responses;
-
-public class ObterTodasPessoasResponse
+namespace Cepedi.Banco.Pessoa.Compartilhado.Responses
 {
-    public List<ObterPessoaResponse> Pessoas { get; set; } = default!;
+    public class ObterTodasPessoasResponse
+    {
+        public List<ObterPessoaResponse> Pessoas { get; set; } = new List<ObterPessoaResponse>();
+    }
 }
