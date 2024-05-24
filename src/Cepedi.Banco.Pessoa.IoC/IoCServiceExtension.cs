@@ -71,42 +71,19 @@ namespace Cepedi.Banco.Pessoa.IoC
         }
 
         private static void ConfigurarSso(IServiceCollection services, IConfiguration configuration)
-{
-    var authenticationOptions = configuration.GetSection(KeycloakAuthenticationOptions.Section).Get<KeycloakAuthenticationOptions>();
+        {
+            var authenticationOptions = configuration.GetSection(KeycloakAuthenticationOptions.Section).Get<KeycloakAuthenticationOptions>();
 
-    if (authenticationOptions != null)
-    {
-        services.AddKeycloakAuthentication(authenticationOptions);
-    }
-    else
-    {
-        // Aqui você pode lidar com a ausência de configuração para o Keycloak
-        // Por exemplo, você pode fornecer valores padrão ou ignorar a configuração
-        // Se desejar, pode registrar um aviso ou log para informar sobre a ausência de configuração
-    }
+            services.AddKeycloakAuthentication(authenticationOptions!);
 
-    var authorizationOptions = configuration.GetSection(KeycloakProtectionClientOptions.Section).Get<KeycloakProtectionClientOptions>();
+            var authorizationOptions = configuration.GetSection(KeycloakProtectionClientOptions.Section).Get<KeycloakProtectionClientOptions>();
 
-    if (authorizationOptions != null)
-    {
-        services.AddKeycloakAuthorization(authorizationOptions);
-    }
-    else
-    {
-        // Lidar com a ausência de configuração para a autorização do Keycloak, se necessário
-    }
+            services.AddKeycloakAuthorization(authorizationOptions);
 
-    var adminClientOptions = configuration.GetSection(KeycloakAdminClientOptions.Section).Get<KeycloakAdminClientOptions>();
+            var adminClientOptions = configuration.GetSection(KeycloakAdminClientOptions.Section).Get<KeycloakAdminClientOptions>();
 
-    if (adminClientOptions != null)
-    {
-        services.AddKeycloakAdminHttpClient(adminClientOptions);
-    }
-    else
-    {
-        // Lidar com a ausência de configuração para o cliente administrativo do Keycloak, se necessário
-    }
-}
+            services.AddKeycloakAdminHttpClient(adminClientOptions);
+        }
 
     }
 }
