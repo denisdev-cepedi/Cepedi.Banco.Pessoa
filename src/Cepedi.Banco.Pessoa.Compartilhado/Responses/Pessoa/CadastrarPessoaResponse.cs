@@ -10,4 +10,6 @@ public class CadastrarPessoaResponse
     public string Genero { get; set; } = default!;
     public string EstadoCivil { get; set; } = default!;
     public string Nacionalidade { get; set; } = default!;
+    public CadastrarTelefoneResponse TelefonePrincipal { get; set; } = default!;
+    public CadastrarEnderecoResponse EnderecoPrincipal { get; set; } = default!;
 }

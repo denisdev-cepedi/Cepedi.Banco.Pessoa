@@ -60,7 +60,7 @@ public class CadastrarPessoaRequestHandler : IRequestHandler<CadastrarPessoaRequ
             Principal = true,
             Pessoa = pessoa
         };
-        await _telefoneRepository.CadastrarTelefoneAsync(telefone);
+        var _telefone = await _telefoneRepository.CadastrarTelefoneAsync(telefone);
 
         var endereco = new EnderecoEntity
         {
@@ -75,7 +75,7 @@ public class CadastrarPessoaRequestHandler : IRequestHandler<CadastrarPessoaRequ
             Principal = true,
             Pessoa = pessoa
         };
-        await _enderecoRepository.CadastrarEnderecoAsync(endereco);
+        var _endereco = await _enderecoRepository.CadastrarEnderecoAsync(endereco);
 
         await _unitOfWork.SaveChangesAsync();
 
@@ -90,7 +90,31 @@ public class CadastrarPessoaRequestHandler : IRequestHandler<CadastrarPessoaRequ
             Cpf = pessoa.Cpf,
             Genero = pessoa.Genero,
             EstadoCivil = pessoa.EstadoCivil,
-            Nacionalidade = pessoa.Nacionalidade
+            Nacionalidade = pessoa.Nacionalidade,
+            TelefonePrincipal = new CadastrarTelefoneResponse
+            {
+                Id = _telefone.Id,
+                CodPais = _telefone.CodPais,
+                Ddd = _telefone.Ddd,
+                Numero = _telefone.Numero,
+                Tipo = _telefone.Tipo,
+                Principal = _telefone.Principal,
+                IdPessoa = _telefone.IdPessoa
+            },
+            EnderecoPrincipal = new CadastrarEnderecoResponse
+            {
+                Id = _endereco.Id,
+                Cep = _endereco.Cep,
+                Logradouro = _endereco.Logradouro,
+                Complemento = _endereco.Complemento,
+                Bairro = _endereco.Bairro,
+                Cidade = _endereco.Cidade,
+                Uf = _endereco.Uf,
+                Pais = _endereco.Pais,
+                Numero = _endereco.Numero,
+                Principal = _endereco.Principal,
+                IdPessoa = _endereco.IdPessoa
+            }
         });
     }
 }
