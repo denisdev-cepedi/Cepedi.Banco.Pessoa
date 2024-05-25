@@ -15,13 +15,15 @@ namespace Cepedi.Banco.Pessoa.Domain.Tests;
 public class CadastrarPessoaRequestHandlerTests
 {
     private readonly IPessoaRepository _pessoaRepository = Substitute.For<IPessoaRepository>();
+    private readonly IEnderecoRepository _enderecoRepository = Substitute.For<IEnderecoRepository>();
+    private readonly ITelefoneRepository _telefoneRepository = Substitute.For<ITelefoneRepository>();
     private readonly IUnitOfWork _uinityOfWork = Substitute.For<IUnitOfWork>();
     private readonly ILogger<CadastrarPessoaRequestHandler> _logger = Substitute.For<ILogger<CadastrarPessoaRequestHandler>>();
     private readonly CadastrarPessoaRequestHandler _sut;
 
     public CadastrarPessoaRequestHandlerTests()
     {
-        _sut = new CadastrarPessoaRequestHandler(_pessoaRepository, _uinityOfWork, _logger);
+        _sut = new CadastrarPessoaRequestHandler(_pessoaRepository, _telefoneRepository, _enderecoRepository, _uinityOfWork, _logger);
     }
 
     [Fact]
@@ -37,8 +39,27 @@ public class CadastrarPessoaRequestHandlerTests
             EstadoCivil = "Solteiro",
             Genero = "Masculino",
             Nacionalidade = "Brasileiro",
+            Telefone = new CadastrarTelefonePessoaRequest
+            {
+                CodPais = "55",
+                Ddd = "11",
+                Numero = "999999999",
+                Tipo = "Celular"
+            },
+            Endereco = new CadastrarEnderecoPessoaRequest
+            {
+                Bairro = "Bairro",
+                Cep = "00000000",
+                Cidade = "Cidade",
+                Complemento = "Complemento",
+                Uf = "SP",
+                Logradouro = "Logradouro",
+                Numero = "123",
+                Pais = "Brasil"
+            }
         };
-
+        _enderecoRepository.CadastrarEnderecoAsync(It.IsAny<EnderecoEntity>()).ReturnsForAnyArgs(new EnderecoEntity());
+        _telefoneRepository.CadastrarTelefoneAsync(It.IsAny<TelefoneEntity>()).ReturnsForAnyArgs(new TelefoneEntity());
         _pessoaRepository.ObterPessoaPorCpfAsync(request.Cpf).ReturnsNull();
         _pessoaRepository.CadastrarPessoaAsync(It.IsAny<PessoaEntity>()).ReturnsForAnyArgs(new PessoaEntity());
         _uinityOfWork.SaveChangesAsync().ReturnsForAnyArgs(true);

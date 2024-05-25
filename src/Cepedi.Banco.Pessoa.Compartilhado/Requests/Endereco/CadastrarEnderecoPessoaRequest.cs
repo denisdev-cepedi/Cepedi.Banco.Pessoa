@@ -1,8 +1,11 @@
-﻿namespace Cepedi.Banco.Pessoa.Compartilhado.Responses;
+using Cepedi.Banco.Pessoa.Compartilhado.Responses;
+using MediatR;
+using OperationResult;
 
-public class ObterEnderecoResponse
+namespace Cepedi.Banco.Pessoa.Compartilhado.Requests;
+
+public class CadastrarEnderecoPessoaRequest : IRequest<Result<CadastrarEnderecoResponse>>, IValida
 {
-    public int Id { get; set; }
     public string Cep { get; set; } = default!;
     public string Logradouro { get; set; } = default!;
     public string Complemento { get; set; } = default!;
@@ -11,6 +14,5 @@ public class ObterEnderecoResponse
     public string Uf { get; set; } = default!;
     public string Pais { get; set; } = default!;
     public string Numero { get; set; } = default!;
-    public bool Principal { get; set; } = default!;
-    public int IdPessoa { get; set; }
+    
 }

@@ -45,4 +45,5 @@ public class TelefoneRepository : ITelefoneRepository
         var telefones = await _context.Telefone.ToListAsync();
         return telefones;
     }
+    
 }

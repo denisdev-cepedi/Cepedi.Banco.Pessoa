@@ -84,5 +84,6 @@ namespace Cepedi.Banco.Pessoa.IoC
 
             services.AddKeycloakAdminHttpClient(adminClientOptions);
         }
+
     }
 }

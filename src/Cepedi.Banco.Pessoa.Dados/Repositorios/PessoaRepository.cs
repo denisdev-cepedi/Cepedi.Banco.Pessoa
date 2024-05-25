@@ -39,8 +39,6 @@ public class PessoaRepository : IPessoaRepository
     public async Task<PessoaEntity> ObterPessoaAsync(int id)
     {
         var pessoa = await _context.Pessoa
-            .Include(p => p.Enderecos)
-            .Include(p => p.Telefones)
             .FirstOrDefaultAsync(p => p.Id == id);
         return pessoa;
     }
@@ -71,8 +69,6 @@ public class PessoaRepository : IPessoaRepository
     public async Task<List<PessoaEntity>> ObterTodasPessoasAsync()
     {
         var pessoas = await _context.Pessoa
-            .Include(p => p.Enderecos)
-            .Include(p => p.Telefones)
             .ToListAsync();
         return pessoas;
     }
@@ -80,8 +76,6 @@ public class PessoaRepository : IPessoaRepository
     public async Task<PessoaEntity> ObterPessoaPorCpfAsync(string cpf)
     {
         var pessoa = await _context.Pessoa
-           .Include(p => p.Enderecos)
-           .Include(p => p.Telefones)
            .FirstOrDefaultAsync(p => p.Cpf == cpf);
         return pessoa;
     }

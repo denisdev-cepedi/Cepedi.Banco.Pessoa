@@ -51,4 +51,5 @@ public class EnderecoRepository : IEnderecoRepository
         var enderecos = await _context.Endereco.ToListAsync();
         return enderecos;
     }
+
 }

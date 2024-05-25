@@ -35,6 +35,7 @@ public class ObterTelefoneRequestHandler : IRequestHandler<ObterTelefoneRequest,
             Ddd = telefone.Ddd,
             Numero = telefone.Numero,
             Tipo = telefone.Tipo,
+            IdPessoa = telefone.IdPessoa,
             Principal = telefone.Principal
         });
     }

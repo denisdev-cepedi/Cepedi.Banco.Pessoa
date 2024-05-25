@@ -1,0 +1,597 @@
+{
+	"info": {
+		"_postman_id": "44008e99-f906-47db-b0ac-515e494c6993",
+		"name": "Cepedi.Banco.Pessoa",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31814834"
+	},
+	"item": [
+		{
+			"name": "Endereço",
+			"item": [
+				{
+					"name": "Obter Endereço",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5078/Endereco/v1/Enderecos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Endereco",
+								"v1",
+								"Enderecos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Todos Endereços",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5078/Endereco/v1/Enderecos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Endereco",
+								"v1",
+								"Enderecos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Endereço",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cep\": \"00000000\",\r\n  \"logradouro\": \"Rua X\",\r\n  \"complemento\": \"Complemento Y\",\r\n  \"bairro\": \"Bairro Z\",\r\n  \"cidade\": \"Cidade A\",\r\n  \"uf\": \"BA\",\r\n  \"pais\": \"País C\",\r\n  \"numero\": \"1\",\r\n  \"idPessoa\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5078/Endereco/v1/Enderecos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Endereco",
+								"v1",
+								"Enderecos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Endereço",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"cep\": \"00000000\",\r\n    \"logradouro\": \"Rua X\",\r\n    \"complemento\": \"Complemento Y\",\r\n    \"bairro\": \"Bairro Z\",\r\n    \"cidade\": \"Cidade A\",\r\n    \"uf\": \"BA\",\r\n    \"pais\": \"País C\",\r\n    \"numero\": \"1\",\r\n    \"principal\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5078/Endereco/v1/Enderecos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Endereco",
+								"v1",
+								"Enderecos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Endereço",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"enderecoId\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5078/Endereco/v1/Enderecos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Endereco",
+								"v1",
+								"Enderecos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pessoa",
+			"item": [
+				{
+					"name": "Obter Pessoa",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5078/Pessoa/v1/Pessoas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Pessoa",
+								"v1",
+								"Pessoas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Todas Pessoas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5078/Pessoa/v1/Pessoas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Pessoa",
+								"v1",
+								"Pessoas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Pessoa Por CPF",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5078/Pessoa/v1/Pessoas/cpf/12345678901",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Pessoa",
+								"v1",
+								"Pessoas",
+								"cpf",
+								"12345678901"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Telefones de Pessoa",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5078/Pessoa/v1/Pessoas/1/Telefones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Pessoa",
+								"v1",
+								"Pessoas",
+								"1",
+								"Telefones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Endereços de Pessoa",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5078/Pessoa/v1/Pessoas/1/Enderecos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Pessoa",
+								"v1",
+								"Pessoas",
+								"1",
+								"Enderecos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Pessoa",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"João Cabral\",\r\n  \"email\": \"joao.cabral@gmail.com\",\r\n  \"dataNascimento\": \"1985-10-15T00:00:00.000Z\",\r\n  \"cpf\": \"25489632549\",\r\n  \"genero\": \"Masculino\",\r\n  \"estadoCivil\": \"Casado\",\r\n  \"nacionalidade\": \"Brasileiro\",\r\n  \"telefone\": {\r\n    \"codPais\": \"55\",\r\n    \"ddd\": \"85\",\r\n    \"numero\": \"996532459\",\r\n    \"tipo\": \"Celular\"\r\n  },\r\n  \"endereco\": {\r\n    \"cep\": \"60000000\",\r\n    \"logradouro\": \"Rua dos Pinhais\",\r\n    \"complemento\": \"Apto 101\",\r\n    \"bairro\": \"Centro\",\r\n    \"cidade\": \"Fortaleza\",\r\n    \"uf\": \"CE\",\r\n    \"pais\": \"Brasil\",\r\n    \"numero\": \"123\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5078/Pessoa/v1/Pessoas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Pessoa",
+								"v1",
+								"Pessoas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Pessoa",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 1,\r\n  \"nome\": \"Nome 1\",\r\n  \"email\": \"Email 1\",\r\n  \"dataNascimento\": \"2024-05-22T23:51:56.512Z\",\r\n  \"cpf\": \"12345678902\",\r\n  \"genero\": \"Masculino\",\r\n  \"estadoCivil\": \"Solteiro\",\r\n  \"nacionalidade\": \"Brasileiro\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5078/Pessoa/v1/Pessoas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Pessoa",
+								"v1",
+								"Pessoas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Pessoa",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pessoaId\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5078/Pessoa/v1/Pessoas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Pessoa",
+								"v1",
+								"Pessoas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Telefone",
+			"item": [
+				{
+					"name": "Obter Telefone",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5078/Telefone/v1/Telefones/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Telefone",
+								"v1",
+								"Telefones",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Todos Telefones",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5078/Telefone/v1/Telefones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Telefone",
+								"v1",
+								"Telefones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Telefone",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codPais\": \"55\",\r\n    \"ddd\": \"73\",\r\n    \"numero\": \"912345678\",\r\n    \"tipo\": \"Telefone\",\r\n    \"idPessoa\": 1\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5078/Telefone/v1/Telefones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Telefone",
+								"v1",
+								"Telefones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Telefone",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 5,\r\n  \"codPais\": \"1\",\r\n  \"ddd\": \"323\",\r\n  \"numero\": \"111111111\",\r\n  \"tipo\": \"Telefone\",\r\n  \"principal\": false\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5078/Telefone/v1/Telefones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Telefone",
+								"v1",
+								"Telefones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Telefone",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"telefoneId\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5078/Telefone/v1/Telefones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5078",
+							"path": [
+								"Telefone",
+								"v1",
+								"Telefones"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

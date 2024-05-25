@@ -4,6 +4,7 @@ using Cepedi.Banco.Pessoa.Dominio.Repository;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
+using Cepedi.Banco.Pessoa.Dominio.Entidades;
 
 namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 {
@@ -24,9 +25,17 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
 
             if (pessoa is null)
             {
-                _logger.LogError("Pessoa não encontrada");
+                _logger.LogError("Pessoa não encontrada");
                 return Result.Error<ObterPessoaResponse>(new Compartilhado.Exceptions.PessoaNaoEncontradaExcecao());
             }
+
+              
+            var telefonePrincipal = await _pessoaRepository.ObterTelefonePrincipalAsync(pessoa.Id);
+            var enderecoPrincipal = await _pessoaRepository.ObterEnderecoPrincipalAsync(pessoa.Id);
+
+            
+            var telefonePrincipalResponse = MapToCadastrarTelefoneResponse(telefonePrincipal);
+            var enderecoPrincipalResponse = MapToCadastrarEnderecoResponse(enderecoPrincipal);
 
             var pessoaResponse = new ObterPessoaResponse
             {
@@ -37,13 +46,41 @@ namespace Cepedi.Banco.Pessoa.Dominio.Handlers
                 Cpf = pessoa.Cpf,
                 Genero = pessoa.Genero,
                 EstadoCivil = pessoa.EstadoCivil,
-                Nacionalidade = pessoa.Nacionalidade
+                Nacionalidade = pessoa.Nacionalidade,
+                EnderecoPrincipal = enderecoPrincipalResponse,
+                TelefonePrincipal = telefonePrincipalResponse
             };
 
             _logger.LogInformation("Retornando Pessoa encontrada");
-
             return Result.Success(pessoaResponse);
         }
 
+        private ObterTelefoneResponse MapToCadastrarTelefoneResponse(TelefoneEntity telefone)
+        {
+            return new ObterTelefoneResponse
+            {   Id = telefone.Id,
+                CodPais = telefone.CodPais,
+                Ddd = telefone.Ddd,
+                Numero = telefone.Numero,
+                Tipo = telefone.Tipo,
+                IdPessoa = telefone.IdPessoa
+            };
+        }
+
+        private ObterEnderecoResponse MapToCadastrarEnderecoResponse(EnderecoEntity endereco)
+        {
+            return new ObterEnderecoResponse
+            {   Id = endereco.Id,
+                Cep = endereco.Cep,
+                Logradouro = endereco.Logradouro,
+                Complemento = endereco.Complemento,
+                Bairro = endereco.Bairro,
+                Cidade = endereco.Cidade,
+                Uf = endereco.Uf,
+                Pais = endereco.Pais,
+                Numero = endereco.Numero,
+                IdPessoa = endereco.IdPessoa
+            };
+        }
     }
 }
